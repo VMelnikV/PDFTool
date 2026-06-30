@@ -93,7 +93,7 @@
 
 ```bash
 # Завантажте PDFTool.AppImage
-wget https://github.com/VMelnikV/PDFTool/releases/latest/download/PDFTool-x86_64.AppImage
+wget https://github.com/VMelnikV/PDFTool/releases/latest/download/PDFTool.AppImage
 
 # Зробіть виконуваним
 chmod +x PDFTool.AppImage
@@ -114,7 +114,7 @@ cd pdf-tool
 pip install -r requirements.txt
 
 # Запустіть програму
-python3 /main.py
+python3 cod/main.py
 ```
 ## 🙏 Подяки
 
