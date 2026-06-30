@@ -6,8 +6,8 @@
 
 **Потужний, безкоштовний та зручний застосунок для роботи з PDF-файлами**
 
-[![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)](https://github.com/VMelnikV/PDFTool)
-[![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+[![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)](https://github.com/VMelnikV/PDFTool/releases)
+[![License](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/VMelnikV/PDFTool/blob/main/LICENSE)
 [![Python](https://img.shields.io/badge/python-3.12-blue.svg)](https://www.python.org/)
 [![Platform](https://img.shields.io/badge/platform-Linux-orange.svg)](https://appimage.org/)
 
