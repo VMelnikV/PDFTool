@@ -138,14 +138,12 @@ PyPDFForm — за заповнення форм
 
 </div>
 
-## ⬇️ Завантажити
-
-### Остання версія
-[![Download AppImage](https://img.shields.io/badge/download-AppImage-blue.svg)](https://github.com/VMelnikV/PDFTool/releases/latest/download/PDFTool.AppImage)
 
 <div align="center">
 
 Якщо є бажання віддячити та підтримати мене
+
+(mono.png)
 
 https://send.monobank.ua/5M8pMbQG3A
 
