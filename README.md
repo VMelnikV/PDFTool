@@ -141,9 +141,9 @@ PyPDFForm — за заповнення форм
 
 <div align="center">
 
-Якщо є бажання віддячити та підтримати мене
+## Якщо є бажання віддячити та підтримати мене
 
-(mono.png)
+![https://send.monobank.ua/5M8pMbQG3A](https://github.com/VMelnikV/PDFTool/blob/main/mono.png)
 
 https://send.monobank.ua/5M8pMbQG3A
 
