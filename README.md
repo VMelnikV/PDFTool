@@ -66,12 +66,6 @@
 
 ---
 
-## 📸 Скріншоти
-
-*Тут можна додати скріншоти програми*
-
----
-
 ## 🛠️ Технології
 
 | Компонент | Опис |
@@ -99,7 +93,7 @@
 
 ```bash
 # Завантажте PDFTool.AppImage
-wget https://github.com/yourusername/pdf-tool/releases/latest/download/PDFTool.AppImage
+wget https://github.com/VMelnikV/PDFTool/releases/latest/download/PDFTool.AppImage
 
 # Зробіть виконуваним
 chmod +x PDFTool.AppImage
@@ -113,14 +107,14 @@ chmod +x PDFTool.AppImage
 ### З вихідного коду
 ```bash
 # Клонуйте репозиторій
-git clone https://github.com/yourusername/pdf-tool.git
+git clone https://github.com/VMelnikV/PDFTool.git
 cd pdf-tool
 
 # Встановіть залежності
 pip install -r requirements.txt
 
 # Запустіть програму
-python3 cod/main.py
+python3 /main.py
 ```
 ## 🙏 Подяки
 
