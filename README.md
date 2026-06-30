@@ -6,7 +6,7 @@
 
 **Потужний, безкоштовний та зручний застосунок для роботи з PDF-файлами**
 
-[![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)](https://github.com/yourusername/pdf-tool)
+[![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)](https://github.com/VMelnikV/PDFTool)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 [![Python](https://img.shields.io/badge/python-3.12-blue.svg)](https://www.python.org/)
 [![Platform](https://img.shields.io/badge/platform-Linux-orange.svg)](https://appimage.org/)
@@ -93,7 +93,7 @@
 
 ```bash
 # Завантажте PDFTool.AppImage
-wget https://github.com/VMelnikV/PDFTool/releases/latest/download/PDFTool.AppImage
+wget https://github.com/VMelnikV/PDFTool/releases/latest/download/PDFTool-x86_64.AppImage
 
 # Зробіть виконуваним
 chmod +x PDFTool.AppImage
