@@ -1,0 +1,96 @@
+version: 1
+
+script:
+  - rm -rf AppDir | true
+  - mkdir -p AppDir/usr/bin
+  - mkdir -p AppDir/usr/share/applications
+  - mkdir -p AppDir/usr/share/icons/hicolor/256x256/apps
+  
+  # Копіюємо виконуваний файл з PyInstaller
+  - cp dist/PDFTool AppDir/usr/bin/PDFTool
+  - chmod +x AppDir/usr/bin/PDFTool
+  
+  # Копіюємо іконку
+  - cp pdf_icon.png AppDir/usr/share/icons/hicolor/256x256/apps/pdf-tool.png 2>/dev/null || true
+  
+  # Створюємо .desktop файл
+  - echo "[Desktop Entry]" > AppDir/usr/share/applications/pdf-tool.desktop
+  - echo "Name=PDFTool" >> AppDir/usr/share/applications/pdf-tool.desktop
+  - echo "Comment=Universal PDF Editor" >> AppDir/usr/share/applications/pdf-tool.desktop
+  - echo "Exec=PDFTool" >> AppDir/usr/share/applications/pdf-tool.desktop
+  - echo "Icon=pdf-tool" >> AppDir/usr/share/applications/pdf-tool.desktop
+  - echo "Terminal=false" >> AppDir/usr/share/applications/pdf-tool.desktop
+  - echo "Type=Application" >> AppDir/usr/share/applications/pdf-tool.desktop
+  - echo "Categories=Office;Graphics;" >> AppDir/usr/share/applications/pdf-tool.desktop
+
+AppDir:
+  path: ./AppDir
+  app_info:
+    id: com.example.pdf-tool
+    name: PDFTool
+    icon: pdf-tool
+    version: 1.0.0
+    exec: usr/bin/PDFTool
+    exec_args: $@
+
+  apt:
+    arch:
+      - amd64
+    sources:
+      - sourceline: 'deb http://archive.ubuntu.com/ubuntu/ jammy main restricted universe multiverse'
+        key_url: 'http://keyserver.ubuntu.com/pks/lookup?op=get&search=0x871920D1991BC93C'
+    include:
+      - libxcb-cursor0
+      - libxcb-icccm4
+      - libxcb-image0
+      - libxcb-keysyms1
+      - libxcb-randr0
+      - libxcb-render-util0
+      - libxcb-shape0
+      - libxcb-xfixes0
+      - libxcb-xinerama0
+      - libxkbcommon-x11-0
+      - libgl1-mesa-glx
+      - libegl1
+      - ghostscript
+    exclude:
+      - humanity-icon-theme
+      - hicolor-icon-theme
+      - adwaita-icon-theme
+      - ubuntu-mono
+      - dmz-cursor-theme
+
+  files:
+    include: []
+    exclude:
+      - usr/share/man
+      - usr/share/doc
+      - usr/lib/x86_64-linux-gnu/libc.a
+      - usr/lib/x86_64-linux-gnu/libpthread.a
+      - usr/lib/systemd
+      - usr/lib/kernel
+      - usr/lib/llvm-*
+      - usr/lib/udev
+      - usr/share/bug
+      - usr/share/initramfs-tools
+      - usr/share/bash-completion
+      - usr/share/lintian
+      - usr/share/X11
+      - usr/sbin
+      - etc/init.d
+      - etc/security
+      - etc/systemd
+      - etc/init
+      - etc/cron*
+      - etc/logrotate.d
+      - etc/update-motd.d
+      - etc/alternatives
+      - etc/dbus-1
+      - etc/avahi
+      - etc/X11
+
+  runtime:
+    env:
+      PATH: '$APPDIR/usr/bin/:/usr/bin/'
+      LD_LIBRARY_PATH: '$APPDIR/usr/lib/x86_64-linux-gnu/:$LD_LIBRARY_PATH'
+      XDG_DATA_DIRS: '$APPDIR/usr/share:/usr/share'
