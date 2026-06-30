@@ -108,4 +108,38 @@ chmod +x PDFTool.AppImage
 ./PDFTool.AppImage
 ```
 
-## Або просто двічі клацніть на файлі у файловому менеджері.
+# Або просто двічі клацніть на файлі у файловому менеджері.
+
+### З вихідного коду
+```bash
+# Клонуйте репозиторій
+git clone https://github.com/yourusername/pdf-tool.git
+cd pdf-tool
+
+# Встановіть залежності
+pip install -r requirements.txt
+
+# Запустіть програму
+python3 cod/main.py
+```
+## 🙏 Подяки
+
+DeepDeek - за допомогу з кодом
+
+PySide6 — за потужний GUI-фреймворк
+
+Ghostscript — за ефективне стиснення PDF
+
+AppImage — за можливість створювати портативні застосунки
+
+Pillow — за роботу із зображеннями
+
+pypdf — за маніпуляції з PDF
+
+PyPDFForm — за заповнення форм
+
+<div align="center">
+
+Зроблено з ❤️ для спільноти
+
+</div>
