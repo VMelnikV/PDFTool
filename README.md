@@ -118,7 +118,7 @@ python3 /main.py
 ```
 ## 🙏 Подяки
 
-DeepDeek - за допомогу з кодом
+DeepSeek - за допомогу з кодом
 
 PySide6 — за потужний GUI-фреймворк
 
@@ -137,3 +137,8 @@ PyPDFForm — за заповнення форм
 Зроблено з ❤️ для спільноти
 
 </div>
+
+## ⬇️ Завантажити
+
+### Остання версія
+[![Download AppImage](https://img.shields.io/badge/download-AppImage-blue.svg)](https://github.com/VMelnikV/PDFTool/releases/latest/download/PDFTool.AppImage)
