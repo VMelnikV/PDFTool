@@ -12,7 +12,7 @@
 [![Platform](https://img.shields.io/badge/platform-Linux-orange.svg)](https://appimage.org/)
 
 [![Download Light](https://img.shields.io/badge/download-Light-green.svg)](https://github.com/VMelnikV/PDFTool/releases/latest/download/PDFTool-Light.AppImage)
-[![Download Full](https://img.shields.io/badge/download-Full-blue.svg)](https://github.com/VMelnikV/PDFTool/releases/latest/download/PDFTool-x86_64.AppImage)
+[![Download Full](https://img.shields.io/badge/download-Full-blue.svg)](https://github.com/VMelnikV/PDFTool/releases/latest/download/PDFTool.AppImage)
 </div>
 
 ---
