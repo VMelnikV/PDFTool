@@ -1,0 +1,72 @@
+version: 1
+
+script:
+  - rm -rf AppDir | true
+  - mkdir -p AppDir/usr/bin
+  - mkdir -p AppDir/usr/share/applications
+  - mkdir -p AppDir/usr/share/icons/hicolor/256x256/apps
+  
+  # Копіюємо код
+  - cp -r cod/* AppDir/usr/bin/
+  - chmod +x AppDir/usr/bin/launcher.py
+  
+  # Копіюємо обгортку (shell)
+  - cp apprun.sh AppDir/usr/bin/apprun.sh
+  - chmod +x AppDir/usr/bin/apprun.sh
+  
+  # Копіюємо БІНАРНУ ЗАГЛУШКУ (головний виконуваний файл)
+  - cp apprun AppDir/usr/bin/PDFTool
+  - chmod +x AppDir/usr/bin/PDFTool
+  
+  # Копіюємо іконку
+  - cp pdf_icon.png AppDir/usr/share/icons/hicolor/256x256/apps/pdf-tool.png 2>/dev/null || true
+  
+  # Створюємо .desktop файл
+  - echo "[Desktop Entry]" > AppDir/usr/share/applications/pdf-tool.desktop
+  - echo "Name=PDFTool" >> AppDir/usr/share/applications/pdf-tool.desktop
+  - echo "Comment=Universal PDF Editor" >> AppDir/usr/share/applications/pdf-tool.desktop
+  - echo "Exec=PDFTool" >> AppDir/usr/share/applications/pdf-tool.desktop
+  - echo "Icon=pdf-tool" >> AppDir/usr/share/applications/pdf-tool.desktop
+  - echo "Terminal=true" >> AppDir/usr/share/applications/pdf-tool.desktop
+  - echo "Type=Application" >> AppDir/usr/share/applications/pdf-tool.desktop
+  - echo "Categories=Office;Graphics;" >> AppDir/usr/share/applications/pdf-tool.desktop
+
+AppDir:
+  path: ./AppDir
+  app_info:
+    id: com.example.pdf-tool
+    name: PDFTool
+    icon: pdf-tool
+    version: 1.0.0
+    exec: usr/bin/PDFTool
+    exec_args: $@
+
+  apt:
+    arch:
+      - amd64
+    sources:
+      - sourceline: 'deb http://archive.ubuntu.com/ubuntu/ jammy main restricted universe multiverse'
+        key_url: 'http://keyserver.ubuntu.com/pks/lookup?op=get&search=0x871920D1991BC93C'
+    include: []
+    exclude:
+      - humanity-icon-theme
+      - hicolor-icon-theme
+      - adwaita-icon-theme
+      - ubuntu-mono
+      - dmz-cursor-theme
+
+  files:
+    include: []
+    exclude:
+      - usr/share/man
+      - usr/share/doc
+      - usr/lib
+      - usr/include
+      - usr/local
+      - etc
+
+  runtime:
+    env:
+      PATH: '$APPDIR/usr/bin/:/usr/bin/'
+      PYTHONPATH: ''
+      XDG_DATA_DIRS: '$APPDIR/usr/share:/usr/share'
