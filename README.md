@@ -96,7 +96,7 @@
 
 ### 🪶 PDFTool-Light.AppImage (рекомендована)
 
-**Розмір:** ~2.7 МБ  
+**Розмір:** ~3 МБ  
 **Вимоги:** Потребує попередньо встановлених системних бібліотек.
 
 ```bash
@@ -118,18 +118,18 @@ pip install PyPDFForm
 
 ### 📦 PDFTool-x86_64.AppImage (повна версія)
 
-**Розмір:** ~250 МБ  
+**Розмір:** ~285 МБ  
 **Вимоги:** Не потребує встановлення додаткових бібліотек. Працює "з коробки".
 
 ```bash
 # Завантажте повну версію
-wget https://github.com/VMelnikV/PDFTool/releases/latest/download/PDFTool-x86_64.AppImage
+wget https://github.com/VMelnikV/PDFTool/releases/download/PDFTool/PDFTool.AppImage
 
 # Зробіть виконуваним
 chmod +x PDFTool-x86_64.AppImage
 
 # Запустіть
-./PDFTool-x86_64.AppImage
+./PDFTool.AppImage
 ```
 
 ### З вихідного коду
