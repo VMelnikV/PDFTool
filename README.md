@@ -126,7 +126,7 @@ pip install PyPDFForm
 wget https://github.com/VMelnikV/PDFTool/releases/download/PDFTool/PDFTool.AppImage
 
 # Зробіть виконуваним
-chmod +x PDFTool-x86_64.AppImage
+chmod +x PDFTool.AppImage
 
 # Запустіть
 ./PDFTool.AppImage
