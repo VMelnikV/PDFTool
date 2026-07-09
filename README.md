@@ -89,26 +89,52 @@
 
 ## 📦 Встановлення та запуск
 
-### AppImage (рекомендований спосіб)
+У вас є вибір між двома версіями:
+
+### 🪶 PDFTool-Light.AppImage (рекомендована)
+
+**Розмір:** ~2.7 МБ  
+**Вимоги:** Потребує попередньо встановлених системних бібліотек.
 
 ```bash
-# Завантажте PDFTool.AppImage
-wget https://github.com/VMelnikV/PDFTool/releases/latest/download/PDFTool.AppImage
+# Завантажте легку версію
+wget https://github.com/VMelnikV/PDFTool/releases/latest/download/PDFTool-Light.AppImage
 
 # Зробіть виконуваним
-chmod +x PDFTool.AppImage
+chmod +x PDFTool-Light.AppImage
 
 # Запустіть
-./PDFTool.AppImage
+./PDFTool-Light.AppImage
 ```
 
-Або просто двічі клацніть на файлі у файловому менеджері.
+**Встановлення залежностей (Ubuntu/Debian):**
+```bash
+sudo apt install python3 python3-pip python3-pyside6 python3-pil python3-pypdf ghostscript
+pip install PyPDFForm
+```
+
+### 📦 PDFTool-x86_64.AppImage (повна версія)
+
+**Розмір:** ~250 МБ  
+**Вимоги:** Не потребує встановлення додаткових бібліотек. Працює "з коробки".
+
+```bash
+# Завантажте повну версію
+wget https://github.com/VMelnikV/PDFTool/releases/latest/download/PDFTool-x86_64.AppImage
+
+# Зробіть виконуваним
+chmod +x PDFTool-x86_64.AppImage
+
+# Запустіть
+./PDFTool-x86_64.AppImage
+```
 
 ### З вихідного коду
+
 ```bash
 # Клонуйте репозиторій
 git clone https://github.com/VMelnikV/PDFTool.git
-cd pdf-tool
+cd PDFTool
 
 # Встановіть залежності
 pip install -r requirements.txt
