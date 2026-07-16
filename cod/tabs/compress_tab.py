@@ -7,6 +7,130 @@ from PySide6.QtCore import Signal, QThread, Qt
 from PySide6.QtGui import QDragEnterEvent, QDropEvent, QIcon
 import subprocess
 import os
+import sys
+import shutil
+
+# ==================================================
+# ФУНКЦІЇ ДЛЯ РОБОТИ З ВБУДОВАНИМ GHOSTSCRIPT
+# ==================================================
+
+def get_appimage_base_path():
+    """Повертає базовий шлях до AppImage (sys._MEIPASS)"""
+    if getattr(sys, 'frozen', False):
+        if hasattr(sys, '_MEIPASS'):
+            return sys._MEIPASS
+        else:
+            return os.path.dirname(sys.executable)
+    return None
+
+def get_appdir_path():
+    """Повертає шлях до AppDir (де знаходяться файли AppImage)"""
+    base_path = get_appimage_base_path()
+    if not base_path:
+        return None
+    
+    # В AppImage файли можуть бути в різних місцях
+    possible_paths = [
+        base_path,  # /tmp/.mount_xxxxx/usr/bin/_internal
+        os.path.dirname(base_path),  # /tmp/.mount_xxxxx/usr/bin
+        os.path.dirname(os.path.dirname(base_path)),  # /tmp/.mount_xxxxx/usr
+        os.path.dirname(os.path.dirname(os.path.dirname(base_path))),  # /tmp/.mount_xxxxx
+    ]
+    
+    for path in possible_paths:
+        gs_path = os.path.join(path, 'usr', 'bin', 'gs')
+        if os.path.exists(gs_path):
+            return path
+    
+    return None
+
+def find_ghostscript_version():
+    """Знаходить версію Ghostscript всередині AppDir"""
+    appdir_path = get_appdir_path()
+    if not appdir_path:
+        return None
+    
+    gs_dir = os.path.join(appdir_path, 'usr', 'share', 'ghostscript')
+    if not os.path.exists(gs_dir):
+        return None
+    
+    for item in os.listdir(gs_dir):
+        if item[0].isdigit():
+            init_path = os.path.join(gs_dir, item, 'Resource', 'Init', 'gs_init.ps')
+            if os.path.exists(init_path):
+                return item
+    return None
+
+def get_gs_path():
+    """Повертає шлях до Ghostscript (з AppDir)"""
+    appdir_path = get_appdir_path()
+    if appdir_path:
+        gs_path = os.path.join(appdir_path, 'usr', 'bin', 'gs')
+        if os.path.exists(gs_path) and os.access(gs_path, os.X_OK):
+            return gs_path
+    
+    # Якщо не знайдено в AppDir, пробуємо всередині PyInstaller
+    base_path = get_appimage_base_path()
+    if base_path:
+        gs_path = os.path.join(base_path, 'usr', 'bin', 'gs')
+        if os.path.exists(gs_path) and os.access(gs_path, os.X_OK):
+            return gs_path
+    
+    return None
+
+def get_ghostscript_env():
+    """Повертає середовище для Ghostscript (з AppDir)"""
+    env = os.environ.copy()
+    
+    appdir_path = get_appdir_path()
+    if not appdir_path:
+        return None
+    
+    version = find_ghostscript_version()
+    if not version:
+        return None
+    
+    gs_lib_path = os.path.join(appdir_path, 'usr', 'share', 'ghostscript', version, 'Resource', 'Init')
+    if os.path.exists(gs_lib_path):
+        env['GS_LIB'] = gs_lib_path
+        env['GS_FONTPATH'] = os.path.join(appdir_path, 'usr', 'share', 'ghostscript', version, 'Resource', 'Font')
+        env['GS_OPTIONS'] = '-dNOPAUSE -dBATCH -dSAFER'
+        return env
+    
+    return None
+
+def check_ghostscript():
+    """Перевіряє наявність вбудованого Ghostscript в AppDir"""
+    try:
+        gs_path = get_gs_path()
+        if not gs_path:
+            return False, "Вбудований Ghostscript не знайдено в AppImage"
+        
+        env = get_ghostscript_env()
+        if not env:
+            return False, "Не знайдено ресурси Ghostscript в AppImage"
+        
+        gs_init_path = os.path.join(env.get('GS_LIB', ''), 'gs_init.ps')
+        if not os.path.exists(gs_init_path):
+            return False, f"Не знайдено gs_init.ps за шляхом:\n{gs_init_path}"
+        
+        result = subprocess.run(
+            [gs_path, '--version'],
+            env=env,
+            capture_output=True,
+            text=True
+        )
+        if result.returncode != 0:
+            return False, f"Ghostscript не може ініціалізуватися.\nПомилка: {result.stderr}"
+        
+        return True, "Ghostscript готовий до роботи"
+    except Exception as e:
+        return False, f"Помилка перевірки Ghostscript: {str(e)}"
+
+
+# ==================================================
+# КЛАС ПОТОКУ ДЛЯ СТИСНЕННЯ
+# ==================================================
 
 class CompressThread(QThread):
     finished = Signal(str)
@@ -23,14 +147,32 @@ class CompressThread(QThread):
     
     def run(self):
         try:
-            try:
-                subprocess.run(['gs', '--version'], capture_output=True, check=True)
-            except (subprocess.CalledProcessError, FileNotFoundError):
-                self.error.emit("Ghostscript не встановлено. Встановіть: sudo apt install ghostscript")
+            # Отримуємо шлях до вбудованого Ghostscript
+            gs_path = get_gs_path()
+            
+            # Перевіряємо, чи існує Ghostscript
+            if not gs_path:
+                self.error.emit("Вбудований Ghostscript не знайдено в AppImage")
                 return
             
+            # Отримуємо правильне середовище
+            env = get_ghostscript_env()
+            if not env:
+                self.error.emit("Не знайдено ресурси Ghostscript в AppImage")
+                return
+            
+            # Перевіряємо, чи є файл gs_init.ps
+            gs_init_path = os.path.join(env.get('GS_LIB', ''), 'gs_init.ps')
+            if not os.path.exists(gs_init_path):
+                self.error.emit(
+                    f"Не знайдено файл gs_init.ps за шляхом:\n{gs_init_path}\n\n"
+                    "Переконайтеся, що ресурси Ghostscript правильно включені в AppImage."
+                )
+                return
+            
+            # Формуємо команду
             cmd = [
-                'gs',
+                gs_path,
                 '-sDEVICE=pdfwrite',
                 '-dNOPAUSE',
                 '-dBATCH',
@@ -89,11 +231,13 @@ class CompressThread(QThread):
                 self.input_path
             ])
             
+            # Запускаємо процес з правильним середовищем
             process = subprocess.Popen(
                 cmd,
                 stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE,
-                text=True
+                text=True,
+                env=env
             )
             
             stdout, stderr = process.communicate()
@@ -125,6 +269,11 @@ class CompressThread(QThread):
             
         except Exception as e:
             self.error.emit(str(e))
+
+
+# ==================================================
+# КЛАС ВКЛАДКИ СТИСНЕННЯ
+# ==================================================
 
 class CompressTab(QWidget):
     status_signal = Signal(str)
@@ -338,7 +487,6 @@ class CompressTab(QWidget):
         )
     
     def check_file_exists(self):
-        """Перевіряє чи існує файл і пропонує дії"""
         if os.path.exists(self.output_path):
             msg_box = QMessageBox(self)
             msg_box.setWindowTitle("Файл існує")
@@ -383,6 +531,12 @@ class CompressTab(QWidget):
                 return
         
         if not self.check_file_exists():
+            return
+        
+        # Перевіряємо вбудований Ghostscript перед запуском
+        gs_ok, gs_message = check_ghostscript()
+        if not gs_ok:
+            QMessageBox.critical(self, "Помилка", f"Вбудований Ghostscript не готовий до роботи:\n{gs_message}")
             return
         
         profile = self.profile_combo.currentData()
