@@ -2,7 +2,7 @@
 
 <div align="center">
 
-![PDF Tool](pdf_icon.png)
+![PDF Tool](img/pdf_icon.png)
 
 **Потужний, безкоштовний та зручний застосунок для роботи з PDF-файлами**
 
@@ -21,6 +21,35 @@
 ## 📖 Про програму
 
 **PDF Tool** — це потужний, безкоштовний та зручний застосунок для роботи з PDF-файлами, створений на Python з використанням PySide6. Програма об'єднує всі необхідні інструменти для щоденної роботи з PDF у єдиному інтерфейсі.
+
+---
+
+## 📸 Скріншоти
+
+### <div align="center">Конвертація зображень в PDF</div>
+<div align="center">
+  <img src="img/1.png" alt="Конвертація зображень в PDF" width="600"/>
+</div>
+
+### <div align="center">Об'єднання PDF файлів</div>
+<div align="center">
+  <img src="img/2.png" alt="Об'єднання PDF файлів" width="600"/>
+</div>
+
+### <div align="center">Розділення PDF файлів</div>
+<div align="center">
+  <img src="img/3.png" alt="Розділення PDF файлів" width="600"/>
+</div>
+
+### <div align="center">Робота з формами</div>
+<div align="center">
+  <img src="img/4.png" alt="Робота з формами" width="600"/>
+</div>
+
+### <div align="center">Стиснення PDF</div>
+<div align="center">
+  <img src="img/5.png" alt="Стиснення PDF" width="600"/>
+</div>
 
 ---
 
@@ -172,7 +201,7 @@ Copilot - за допомогу з зображенням
 
 ## Якщо є бажання віддячити та підтримати мене
 
-![https://send.monobank.ua/5M8pMbQG3A](https://github.com/VMelnikV/PDFTool/blob/main/mono.png)
+![https://send.monobank.ua/5M8pMbQG3A](/img/mono.png)
 
 https://send.monobank.ua/5M8pMbQG3A
 
