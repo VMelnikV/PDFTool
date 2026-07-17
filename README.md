@@ -7,7 +7,7 @@
 **Потужний, безкоштовний та зручний застосунок для роботи з PDF-файлами**
 
 [![Version](https://img.shields.io/badge/version-1.1-blue.svg)](https://github.com/VMelnikV/PDFTool/releases)
-[![License](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/VMelnikV/PDFTool/blob/main/LICENSE)
+[![License](https://img.shields.io/badge/license-Custom%20Non--Commercial-red.svg)](https://github.com/VMelnikV/PDFTool/blob/main/LICENSE)
 [![Python](https://img.shields.io/badge/python-3.12-blue.svg)](https://www.python.org/)
 [![Platform](https://img.shields.io/badge/platform-Linux-orange.svg)](https://appimage.org/)
 
@@ -21,8 +21,6 @@
 ## 📖 Про програму
 
 **PDF Tool** — це потужний, безкоштовний та зручний застосунок для роботи з PDF-файлами, створений на Python з використанням PySide6. Програма об'єднує всі необхідні інструменти для щоденної роботи з PDF у єдиному інтерфейсі.
-
-Програма працює як єдиний виконуваний файл (AppImage) і не потребує встановлення додаткових залежностей.
 
 ---
 
