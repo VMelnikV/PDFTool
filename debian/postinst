@@ -1,0 +1,14 @@
+#!/bin/bash
+set -e
+
+# Встановлення Python-залежностей
+if command -v pip3 &> /dev/null; then
+    pip3 install PyPDFForm || true
+fi
+
+# Оновлення кешу
+if [ -x /usr/bin/update-desktop-database ]; then
+    update-desktop-database
+fi
+
+exit 0

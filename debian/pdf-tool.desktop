@@ -1,0 +1,10 @@
+[Desktop Entry]
+Version=1.1
+Type=Application
+Name=PDF Tool
+Comment=Робота з PDF: конвертація, об'єднання, розділення, форми, стиснення
+Exec=pdf-tool
+Icon=pdf-tool
+Terminal=false
+Categories=Office;Utility;Graphics;
+MimeType=application/pdf;

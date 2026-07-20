@@ -1,0 +1,6 @@
+pdf-tool (1.1-1) unstable; urgency=medium
+
+  * Нова версія з виправленням стиснення
+  * Додано DEB-пакет для Debian/Ubuntu
+
+ -- Vasyl Melnyk <melnik@melnik.im>  Mon, 20 Jul 2026 12:00:00 +0300

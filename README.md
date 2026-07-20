@@ -172,6 +172,26 @@ pip install -r requirements.txt
 # Запустіть програму
 python3 cod/main.py
 ```
+### 🐧 DEB-пакет (для Debian/Ubuntu) — НОВИЙ СПОСІБ!
+
+**Зручне встановлення через системний пакетний менеджер.
+
+```bash
+# Завантажте останню версію зі сторінки Releases
+wget https://github.com/VMelnikV/PDFTool/releases/download/v1.1/pdf-tool_1.1-1_all.deb
+
+# Встановіть пакет
+sudo dpkg -i pdf-tool_*.deb
+
+# Якщо виникнуть проблеми з залежностями, виправте їх
+sudo apt-get install -f
+```
+**Після встановлення програма з'явиться в меню застосунків як PDF Tool або її можна запустити з терміналу:
+
+```bash
+pdf-tool
+```
+
 ## 🙏 Подяки
 
 DeepSeek — за те, що жодного разу не сказав "це неможливо" 😉

@@ -1,0 +1,17 @@
+#!/usr/bin/make -f
+%:
+    dh $@
+
+override_dh_auto_install:
+    # Встановлення програми
+    install -Dm755 cod/main.py $(CURDIR)/debian/pdf-tool/usr/share/pdf-tool/main.py
+    cp -r cod/* $(CURDIR)/debian/pdf-tool/usr/share/pdf-tool/
+    
+    # Встановлення іконки (якщо є файл)
+    install -Dm644 pdf-tool.png $(CURDIR)/debian/pdf-tool/usr/share/icons/hicolor/256x256/apps/pdf-tool.png || true
+    
+    # Встановлення .desktop файлу
+    install -Dm644 pdf-tool.desktop $(CURDIR)/debian/pdf-tool/usr/share/applications/pdf-tool.desktop || true
+    
+    # Встановлення скрипта запуску
+    install -Dm755 debian/pdf-tool.sh $(CURDIR)/debian/pdf-tool/usr/bin/pdf-tool

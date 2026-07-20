@@ -1,0 +1,15 @@
+Source: pdf-tool
+Section: utils
+Priority: optional
+Maintainer: Vasyl Melnyk <melnik@melnik.im>
+Build-Depends: debhelper-compat (= 13), python3, python3-pip
+Standards-Version: 4.6.2
+Homepage: https://github.com/VMelnikV/PDFTool
+
+Package: pdf-tool
+Architecture: all
+Depends: ${misc:Depends}, python3-pyside6, python3-pil, python3-pypdf, python3-pip, ghostscript
+Description: Потужний та зручний застосунок для роботи з PDF
+ Конвертація, об'єднання, розділення, заповнення форм та стиснення PDF.
+ .
+ Створено з використанням PySide6 для роботи в Linux.
