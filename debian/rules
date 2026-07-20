@@ -7,11 +7,11 @@ override_dh_auto_install:
 	install -Dm755 cod/main.py $(CURDIR)/debian/pdf-tool/usr/share/pdf-tool/main.py
 	cp -r cod/* $(CURDIR)/debian/pdf-tool/usr/share/pdf-tool/
 	
-	# Встановлення іконки
-	install -Dm644 img/pdf-tool.png $(CURDIR)/debian/pdf-tool/usr/share/icons/hicolor/256x256/apps/pdf-tool.png || true
+	# Встановлення іконки (з папки img)
+	install -Dm644 img/pdf-tool.png $(CURDIR)/debian/pdf-tool/usr/share/icons/hicolor/256x256/apps/pdf-tool.png
 	
-	# Встановлення .desktop файлу
-	install -Dm644 pdf-tool.desktop $(CURDIR)/debian/pdf-tool/usr/share/applications/pdf-tool.desktop || true
+	# Встановлення .desktop файлу (з папки debian)
+	install -Dm644 debian/pdf-tool.desktop $(CURDIR)/debian/pdf-tool/usr/share/applications/pdf-tool.desktop
 	
 	# Встановлення скрипта запуску
 	install -Dm755 debian/pdf-tool.sh $(CURDIR)/debian/pdf-tool/usr/bin/pdf-tool
