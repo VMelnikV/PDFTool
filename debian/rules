@@ -8,7 +8,7 @@ override_dh_auto_install:
 	cp -r cod/* $(CURDIR)/debian/pdf-tool/usr/share/pdf-tool/
 	
 	# Встановлення іконки (з папки img)
-	install -Dm644 img/pdf-tool.png $(CURDIR)/debian/pdf-tool/usr/share/icons/hicolor/256x256/apps/pdf-tool.png
+	install -Dm644 img/pdf_icon.png $(CURDIR)/debian/pdf-tool/usr/share/icons/hicolor/256x256/apps/pdf-tool.png
 	
 	# Встановлення .desktop файлу (з папки debian)
 	install -Dm644 debian/pdf-tool.desktop $(CURDIR)/debian/pdf-tool/usr/share/applications/pdf-tool.desktop
