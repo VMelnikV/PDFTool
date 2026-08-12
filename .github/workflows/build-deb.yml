@@ -3,10 +3,9 @@ name: Build DEB Package
 on:
   push:
     tags:
-      - 'PDFTool_deb_*'     # Автоматичний запуск для тегів типу PDFTool_deb_1.0, PDFTool_deb_1.1 тощо
-  workflow_dispatch:        # Можливість запустити вручну з інтерфейсу GitHub
+      - 'PDFTool_deb_*'
+  workflow_dispatch:
 
-# Надаємо права на запис для завантаження файлів у реліз
 permissions:
   contents: write
 
@@ -28,12 +27,19 @@ jobs:
           dpkg-buildpackage -us -uc -b
 
       - name: List generated files (for debugging)
-        run: ls -la ../*.deb
+        run: |
+          echo "=== Файли в поточній папці ==="
+          ls -la
+          echo "=== Файли в батьківській папці ==="
+          ls -la ../
+          echo "=== Пошук .deb файлів ==="
+          find .. -name "*.deb" -type f
 
       - name: Upload DEB to Release
         if: startsWith(github.ref, 'refs/tags/')
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v2
         with:
           files: ../*.deb
           draft: false
           prerelease: false
+          token: ${{ secrets.GITHUB_TOKEN }}
