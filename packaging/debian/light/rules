@@ -1,0 +1,21 @@
+#!/usr/bin/make -f
+
+%:
+	dh $@
+
+override_dh_auto_install:
+	mkdir -p debian/pdf-tool-light/usr/share/pdf-tool/
+	cp -r src/common debian/pdf-tool-light/usr/share/pdf-tool/
+	cp -r src/light debian/pdf-tool-light/usr/share/pdf-tool/
+	
+	mkdir -p debian/pdf-tool-light/usr/bin/
+	echo '#!/bin/bash' > debian/pdf-tool-light/usr/bin/pdf-tool-light
+	echo 'python3 /usr/share/pdf-tool/light/main.py "$$@"' >> debian/pdf-tool-light/usr/bin/pdf-tool-light
+	chmod +x debian/pdf-tool-light/usr/bin/pdf-tool-light
+	
+	mkdir -p debian/pdf-tool-light/usr/share/applications/
+	cp packaging/desktop/pdf-tool-light.desktop debian/pdf-tool-light/usr/share/applications/
+
+override_dh_auto_clean:
+	rm -rf debian/pdf-tool-light
+	dh_auto_clean

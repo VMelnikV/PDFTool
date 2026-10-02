@@ -1,0 +1,17 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=PDF Tool Light
+Name[uk]=PDF Tool Легка
+Name[en]=PDF Tool Light
+Comment=Багатофункціональний інструмент для роботи з PDF (легка версія)
+Comment[uk]=Багатофункціональний інструмент для роботи з PDF (легка версія)
+Comment[en]=Multi-functional tool for working with PDF (light version)
+Exec=PDFTool
+Icon=pdf-tool-light
+Terminal=false
+Categories=Office;Viewer;
+MimeType=application/pdf;
+Keywords=pdf;tool;editor;converter;merge;split;compress;
+GenericName=PDF Tool
+StartupNotify=true

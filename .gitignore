@@ -1,0 +1,50 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+.eggs/
+dist/
+build/
+
+# Віртуальні середовища
+.venv/
+venv/
+env/
+ENV/
+
+# Переклади
+*.qm
+*.mo
+
+# Пакунки
+*.deb
+*.AppImage
+*.snap
+*.flatpak
+
+# Локальні налаштування
+.env
+.env.local
+*.local
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Логи
+*.log
+
+# Вбудований Ghostscript (бінарні файли, не для git)
+src/full/ghostscript/
+
+# AppImage артефакти
+appimagetool-x86_64.AppImage
+packaging/appimage/*/AppDir/
+packaging/appimage/*/appimage-build/
+packaging/appimage/*/*.AppImage
+.git_backup/

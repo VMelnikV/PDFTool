@@ -1,0 +1,62 @@
+version: 1
+
+script:
+  - rm -rf AppDir | true
+  - mkdir -p AppDir/usr/bin
+  - mkdir -p AppDir/usr/share/applications
+  - mkdir -p AppDir/usr/share/icons/hicolor/256x256/apps
+  - mkdir -p AppDir/usr/share/ghostscript
+  
+  # Копіюємо ELF-бінарник
+  - cp ../../../src/full/dist/PDFTool AppDir/usr/bin/PDFTool
+  - chmod +x AppDir/usr/bin/PDFTool
+  
+  # Копіюємо вбудований Ghostscript
+  - cp -r ../../../src/full/ghostscript/bin/* AppDir/usr/bin/
+  - cp -r ../../../src/full/ghostscript/share/* AppDir/usr/share/ghostscript/
+  
+  # Копіюємо іконку
+  - cp ../../../src/common/resources/icons/pdf_icon.png AppDir/usr/share/icons/hicolor/256x256/apps/pdf-tool-full.png
+  
+  # Копіюємо .desktop файл
+  - cp ../../desktop/appimage/com.melnikv.pdftool.full.desktop AppDir/usr/share/applications/
+
+AppDir:
+  path: ./AppDir
+  app_info:
+    id: com.melnikv.pdftool.full
+    name: PDFTool Full
+    icon: pdf-tool-full
+    version: 1.0.0
+    exec: usr/bin/PDFTool
+    exec_args: $@
+
+  files:
+    include: []
+    exclude:
+      - usr/share/man
+      - usr/share/doc
+      - usr/lib/systemd
+      - usr/lib/kernel
+      - usr/lib/llvm-13
+      - usr/lib/udev
+      - usr/share/bug
+      - usr/share/bash-completion
+      - usr/share/lintian
+      - usr/share/X11
+      - usr/sbin
+      - etc/init.d
+      - etc/security
+      - etc/systemd
+      - etc/dbus-1
+      - etc/avahi
+      - etc/X11
+
+  runtime:
+    env:
+      PATH: '$APPDIR/usr/bin/:/usr/bin/'
+      LD_LIBRARY_PATH: '$APPDIR/usr/lib/x86_64-linux-gnu/:$LD_LIBRARY_PATH'
+      XDG_DATA_DIRS: '$APPDIR/usr/share:/usr/share'
+      PYTHONPATH: '$APPDIR/usr/bin/:$PYTHONPATH'
+      GS_LIB: '$APPDIR/usr/share/ghostscript/10.02.1/Resource/Init'
+      GS_FONTPATH: '$APPDIR/usr/share/ghostscript/10.02.1/Resource/Font'

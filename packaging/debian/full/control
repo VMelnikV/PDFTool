@@ -1,0 +1,25 @@
+Source: pdf-tool-full
+Section: utils
+Priority: optional
+Maintainer: VMelnik <melnik@melnik.im>
+Build-Depends: debhelper (>= 12), python3, python3-pyside6
+Standards-Version: 4.6.0
+
+Package: pdf-tool-full
+Architecture: all
+Depends: ${misc:Depends},
+         python3 (>= 3.8),
+         python3-pyside6,
+         python3-pil,
+         python3-pypdf,
+         python3-pdfminer,
+         python3-reportlab,
+         ghostscript,
+         poppler-utils
+Description: PDF Tool - повна версія з усіма функціями
+ Багатофункціональний інструмент для роботи з PDF-файлами:
+  * Конвертація зображень в PDF
+  * Об'єднання та розділення PDF
+  * Заповнення форм
+  * Стиснення PDF
+ Підтримується багатомовний інтерфейс (українська, англійська).

@@ -1,0 +1,5 @@
+#!/bin/bash
+set -e
+
+echo "PDF Tool Light встановлено!"
+echo "Запустіть командою: pdf-tool-light"
