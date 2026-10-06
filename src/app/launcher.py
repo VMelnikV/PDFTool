@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-PDF Tool Launcher (Light version)
+PDF Tool Launcher
 Перевіряє наявність системних бібліотек та запускає програму
 """
 
