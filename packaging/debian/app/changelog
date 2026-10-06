@@ -1,6 +1,6 @@
-pdf-tool-light (1.0.0-1) stable; urgency=medium
+pdf-tool (1.0.0-1) stable; urgency=medium
 
-  * Перший реліз PDF Tool Light
+  * Перший реліз PDF Tool
   * Легка версія тільки з GUI оболонкою
   * Для тих, хто хоче налаштувати власний функціонал
 

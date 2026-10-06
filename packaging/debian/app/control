@@ -1,11 +1,11 @@
-Source: pdf-tool-light
+Source: pdf-tool
 Section: utils
 Priority: optional
 Maintainer: VMelnik <melnik@melnik.im>
 Build-Depends: debhelper (>= 12), python3, python3-pyside6
 Standards-Version: 4.6.0
 
-Package: pdf-tool-light
+Package: pdf-tool
 Architecture: all
 Depends: ${misc:Depends},
          python3 (>= 3.8),

@@ -1,4 +1,4 @@
 #!/bin/bash
 set -e
 
-echo "PDF Tool Light видаляється..."
+echo "PDF Tool видаляється..."
