@@ -20,9 +20,12 @@ build:deb:
   before_script:
     - apt-get update -qq
     - apt-get install -y -qq wget git file sudo python3 python3-pip python3-venv ghostscript poppler-utils
+    - apt-get install -y -qq debhelper dh-python python3-all python3-setuptools
+    - apt-get install -y -qq python3-pip
     - pip install PySide6 PyPDFForm pypdf Pillow pdf2image
   script:
     - echo "Збірка DEB пакета..."
+    - chmod +x packaging/debian/app/rules
     - mkdir -p packages/deb/
     - ./scripts/build-deb.sh
   artifacts:
@@ -43,6 +46,7 @@ build:appimage:
   before_script:
     - apt-get update -qq
     - apt-get install -y -qq wget file git python3 python3-pip python3-venv
+    - apt-get install -y -qq gtk-update-icon-cache libgtk-3-0 libgtk-3-bin
     - pip install pyinstaller appimage-builder
     - pip install PySide6 PyPDFForm pypdf Pillow
     - export PATH="$HOME/.local/bin:$PATH"
