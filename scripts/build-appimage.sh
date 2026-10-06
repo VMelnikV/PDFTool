@@ -3,9 +3,10 @@
 
 set -e
 
-VERSION=$(git describe --tags --always --dirty 2>/dev/null || echo "1.0.0")
+# Версія без префіксу "v"
+VERSION=$(git describe --tags --always --dirty 2>/dev/null | sed 's/^v//' || echo "1.0.0")
 
-echo "🪶 Збірка AppImage..."
+echo "🪶 Збірка AppImage (версія: $VERSION)..."
 
 PROJECT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$PROJECT_ROOT"
