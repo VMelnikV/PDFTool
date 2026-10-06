@@ -35,7 +35,7 @@ def get_icon_path():
         path = os.path.join(base_path, 'pdf_icon.png')
         if os.path.exists(path):
             return path
-        path = os.path.join(base_path, '..', 'share', 'icons', 'hicolor', '256x256', 'apps', 'pdf-tool-light.png')
+        path = os.path.join(base_path, '..', 'share', 'icons', 'hicolor', '256x256', 'apps', 'pdf-tool.png')
         if os.path.exists(path):
             return path
     
@@ -48,7 +48,7 @@ def get_icon_path():
 
 
 def main():
-    """Головна функція запуску програми (Light версія)"""
+    """Головна функція запуску програми"""
     app = QApplication(sys.argv)
     
     # Іконка для всього застосунку

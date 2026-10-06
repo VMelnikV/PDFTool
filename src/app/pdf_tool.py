@@ -33,7 +33,7 @@ class PDFTool(QMainWindow):
     def __init__(self):
         super().__init__()
         
-        self.setWindowTitle(translator.tr('app_title_light', 'common'))
+        self.setWindowTitle(translator.tr('app_title', 'common'))
         self.setMinimumSize(800, 600)
         
         self._set_window_icon()
@@ -85,8 +85,8 @@ class PDFTool(QMainWindow):
             base_path = os.path.dirname(sys.executable)
             possible_paths.append(os.path.join(base_path, 'pdf_icon.png'))
             possible_paths.append(os.path.join(base_path, 'resources', 'icons', 'pdf_icon.png'))
-            possible_paths.append(os.path.join(base_path, '..', 'share', 'icons', 'hicolor', '256x256', 'apps', 'pdf-tool-light.png'))
-            possible_paths.append(os.path.join(base_path, '..', '..', 'share', 'icons', 'hicolor', '256x256', 'apps', 'pdf-tool-light.png'))
+            possible_paths.append(os.path.join(base_path, '..', 'share', 'icons', 'hicolor', '256x256', 'apps', 'pdf-tool.png'))
+            possible_paths.append(os.path.join(base_path, '..', '..', 'share', 'icons', 'hicolor', '256x256', 'apps', 'pdf-tool.png'))
         
         # 3. Звичайний запуск з коду
         current_dir = os.path.dirname(os.path.abspath(__file__))
@@ -113,7 +113,7 @@ class PDFTool(QMainWindow):
     def change_language(self, locale):
         """Змінює мову інтерфейсу"""
         if translator.set_language(locale):
-            self.setWindowTitle(translator.tr('app_title_light', 'common'))
+            self.setWindowTitle(translator.tr('app_title', 'common'))
             
             self.tabs.setTabText(0, translator.tr('tab_convert', 'tabs'))
             self.tabs.setTabText(1, translator.tr('tab_merge', 'tabs'))

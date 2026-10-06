@@ -6,22 +6,22 @@ script:
   - mkdir -p AppDir/usr/share/applications
   - mkdir -p AppDir/usr/share/icons/hicolor/256x256/apps
   
-  # Копіюємо ELF-бінарник з PyInstaller
-  - cp ../../../src/light/dist/PDFTool AppDir/usr/bin/PDFTool
+  # Копіюємо ELF-бінарник
+  - cp ../../../src/app/dist/PDFTool AppDir/usr/bin/PDFTool
   - chmod +x AppDir/usr/bin/PDFTool
   
   # Копіюємо іконку
-  - cp ../../../src/common/resources/icons/pdf_icon.png AppDir/usr/share/icons/hicolor/256x256/apps/pdf-tool-light.png
+  - cp ../../../src/common/resources/icons/pdf_icon.png AppDir/usr/share/icons/hicolor/256x256/apps/pdf-tool.png
   
   # Копіюємо .desktop файл
-  - cp ../../desktop/appimage/com.melnikv.pdftool.light.desktop AppDir/usr/share/applications/
+  - cp ../../desktop/appimage/com.melnikv.pdftool.desktop AppDir/usr/share/applications/
 
 AppDir:
   path: ./AppDir
   app_info:
-    id: com.melnikv.pdftool.light
-    name: PDFTool Light
-    icon: pdf-tool-light
+    id: com.melnikv.pdftool
+    name: PDF Tool
+    icon: pdf-tool
     version: 1.0.0
     exec: usr/bin/PDFTool
     exec_args: $@

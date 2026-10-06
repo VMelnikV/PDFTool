@@ -10,56 +10,34 @@ variables:
   GIT_DEPTH: 1
   DEBIAN_FRONTEND: noninteractive
 
-# Загальний шаблон для збірки DEB
-.build_template: &build_template
+# ============================================
+# ЗБІРКА DEB-ПАКЕТА
+# ============================================
+
+build:deb:
+  stage: build
   image: ubuntu:22.04
   before_script:
     - apt-get update -qq
     - apt-get install -y -qq wget git file sudo python3 python3-pip python3-venv ghostscript poppler-utils
     - pip install PySide6 PyPDFForm pypdf Pillow pdf2image
-  artifacts:
-    paths:
-      - packages/
-
-# ============================================
-# ЗБІРКА DEB-ПАКЕТІВ
-# ============================================
-
-build:deb-full:
-  stage: build
-  <<: *build_template
   script:
-    - echo "Збірка DEB пакета (FULL версія)..."
+    - echo "Збірка DEB пакета..."
     - mkdir -p packages/deb/
-    - ./scripts/build-deb-full.sh
+    - ./scripts/build-deb.sh
   artifacts:
     paths:
-      - packages/deb/pdf-tool-full*.deb
-    expire_in: 1 week
-  only:
-    - main
-    - tags
-
-build:deb-light:
-  stage: build
-  <<: *build_template
-  script:
-    - echo "Збірка DEB пакета (LIGHT версія)..."
-    - mkdir -p packages/deb/
-    - ./scripts/build-deb-light.sh
-  artifacts:
-    paths:
-      - packages/deb/pdf-tool-light*.deb
+      - packages/deb/pdf-tool*.deb
     expire_in: 1 week
   only:
     - main
     - tags
 
 # ============================================
-# ЗБІРКА APPIMAGE (FULL)
+# ЗБІРКА APPIMAGE
 # ============================================
 
-build:appimage-full:
+build:appimage:
   stage: build
   image: ubuntu:22.04
   before_script:
@@ -71,38 +49,12 @@ build:appimage-full:
     - wget -q "https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage" -O appimagetool-x86_64.AppImage
     - chmod +x appimagetool-x86_64.AppImage
   script:
-    - echo "Збірка AppImage (FULL версія)..."
+    - echo "Збірка AppImage..."
     - mkdir -p packages/appimage/
-    - ./scripts/build-appimage.sh full
+    - ./scripts/build-appimage.sh
   artifacts:
     paths:
-      - packages/appimage/PDFTool-Full*.AppImage
-    expire_in: 1 week
-  only:
-    - tags
-
-# ============================================
-# ЗБІРКА APPIMAGE (LIGHT)
-# ============================================
-
-build:appimage-light:
-  stage: build
-  image: ubuntu:22.04
-  before_script:
-    - apt-get update -qq
-    - apt-get install -y -qq wget file git python3 python3-pip python3-venv
-    - pip install pyinstaller appimage-builder
-    - pip install PySide6 PyPDFForm pypdf Pillow
-    - export PATH="$HOME/.local/bin:$PATH"
-    - wget -q "https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage" -O appimagetool-x86_64.AppImage
-    - chmod +x appimagetool-x86_64.AppImage
-  script:
-    - echo "Збірка AppImage (LIGHT версія)..."
-    - mkdir -p packages/appimage/
-    - ./scripts/build-appimage.sh light
-  artifacts:
-    paths:
-      - packages/appimage/PDFTool-Light*.AppImage
+      - packages/appimage/PDFTool*.AppImage
     expire_in: 1 week
   only:
     - tags
@@ -162,17 +114,27 @@ release:
     description: |
       ## PDF Tool $CI_COMMIT_TAG
 
-      ### 📦 DEB пакети
-      - [PDF Tool Full](https://gitlab.com/MelnikV/pdf_tool/-/jobs/artifacts/$CI_COMMIT_TAG/raw/packages/deb/pdf-tool-full_$CI_COMMIT_TAG-1_all.deb?job=build:deb-full)
-      - [PDF Tool Light](https://gitlab.com/MelnikV/pdf_tool/-/jobs/artifacts/$CI_COMMIT_TAG/raw/packages/deb/pdf-tool-light_$CI_COMMIT_TAG-1_all.deb?job=build:deb-light)
+      ### 📦 DEB пакет
+      - [PDF Tool](https://gitlab.com/MelnikV/pdf_tool/-/jobs/artifacts/$CI_COMMIT_TAG/raw/packages/deb/pdf-tool_$CI_COMMIT_TAG-1_all.deb?job=build:deb)
 
       ### 🪶 AppImage
-      - [PDF Tool Full AppImage](https://gitlab.com/MelnikV/pdf_tool/-/jobs/artifacts/$CI_COMMIT_TAG/raw/packages/appimage/PDFTool-Full-$CI_COMMIT_TAG.AppImage?job=build:appimage-full)
-      - [PDF Tool Light AppImage](https://gitlab.com/MelnikV/pdf_tool/-/jobs/artifacts/$CI_COMMIT_TAG/raw/packages/appimage/PDFTool-Light-$CI_COMMIT_TAG.AppImage?job=build:appimage-light)
+      - [PDF Tool AppImage](https://gitlab.com/MelnikV/pdf_tool/-/jobs/artifacts/$CI_COMMIT_TAG/raw/packages/appimage/PDFTool-$CI_COMMIT_TAG.AppImage?job=build:appimage)
 
       ### 📦 APT репозиторій
       Додайте наш репозиторій:
       ```bash
       echo "deb https://melnikv.gitlab.io/pdf_tool/apt stable main" | sudo tee /etc/apt/sources.list.d/pdf-tool.list
       sudo apt update
-      sudo apt install pdf-tool-full
+      sudo apt install pdf-tool
+tag_name: $CI_COMMIT_TAG
+assets:
+links:
+
+    name: "PDF Tool DEB"
+    url: "https://gitlab.com/MelnikV/pdf_tool/-/jobs/artifacts/$CI_COMMIT_TAG/raw/packages/deb/pdf-tool_$CI_COMMIT_TAG-1_all.deb?job=build:deb"
+
+    name: "PDF Tool AppImage"
+    url: "https://gitlab.com/MelnikV/pdf_tool/-/jobs/artifacts/$CI_COMMIT_TAG/raw/packages/appimage/PDFTool-$CI_COMMIT_TAG.AppImage?job=build:appimage"
+    only:
+
+    tags

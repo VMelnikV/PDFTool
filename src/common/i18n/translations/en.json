@@ -1,7 +1,6 @@
 {
   "common": {
-    "app_title_full": "PDF Tool - Universal PDF Editor",
-    "app_title_light": "PDF Tool Light - Lightweight version of the universal PDF editor (no built-in dependencies)",
+    "app_title": "PDF Tool - Universal PDF Editor",
     "status_ready": "Ready",
     "status_processing": "Processing...",
     "status_done": "Done!",

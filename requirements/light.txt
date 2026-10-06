@@ -1,3 +1,0 @@
-# Light версія використовує системний Ghostscript
-# Потрібно встановити його окремо:
-# sudo apt install ghostscript

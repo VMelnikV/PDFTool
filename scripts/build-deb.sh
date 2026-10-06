@@ -1,5 +1,5 @@
 #!/bin/bash
-# Збірка DEB пакета для LIGHT версії
+# Збірка DEB пакета для PDF Tool
 
 set -e
 
@@ -7,16 +7,16 @@ VERSION=$(git describe --tags --always --dirty 2>/dev/null || echo "1.0.0")
 PROJECT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$PROJECT_ROOT"
 
-echo "📦 Збірка DEB пакета (LIGHT версія)..."
+echo "📦 Збірка DEB пакета..."
 
 # Створення тимчасової папки
-BUILD_DIR="build/deb-light"
+BUILD_DIR="build/deb"
 rm -rf "$BUILD_DIR"
 mkdir -p "$BUILD_DIR"
 
 # Копіюємо файли
 cp -r src "$BUILD_DIR/"
-cp -r packaging/debian/light "$BUILD_DIR/debian"
+cp -r packaging/debian/app "$BUILD_DIR/debian"
 
 # Додаємо версію в changelog
 sed -i "s/1.0.0/$VERSION/g" "$BUILD_DIR/debian/changelog"
@@ -29,5 +29,5 @@ cd "$PROJECT_ROOT"
 mkdir -p packages/deb
 mv build/*.deb packages/deb/ 2>/dev/null || true
 
-echo "✅ DEB пакет (LIGHT) створено!"
-ls -la packages/deb/ | grep pdf-tool-light
+echo "✅ DEB пакет створено!"
+ls -la packages/deb/

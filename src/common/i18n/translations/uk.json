@@ -1,7 +1,6 @@
 {
   "common": {
-    "app_title_full": "PDF Tool - Універсальний редактор PDF",
-    "app_title_light": "PDF Tool Light - Легка векрсія універсального редактора PDF (без вмонтованих залежностей)",
+    "app_title": "PDF Tool - Універсальний редактор PDF",
     "status_ready": "Готово до роботи",
     "status_processing": "Обробка...",
     "status_done": "Готово!",
