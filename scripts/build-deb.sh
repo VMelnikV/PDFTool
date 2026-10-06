@@ -3,11 +3,13 @@
 
 set -e
 
-VERSION=$(git describe --tags --always --dirty 2>/dev/null || echo "1.0.0")
+# Версія без префіксу "v" (для Debian)
+VERSION=$(git describe --tags --always --dirty 2>/dev/null | sed 's/^v//' || echo "1.0.0")
+
 PROJECT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$PROJECT_ROOT"
 
-echo "📦 Збірка DEB пакета..."
+echo "📦 Збірка DEB пакета (версія: $VERSION)..."
 
 # Створення тимчасової папки
 BUILD_DIR="build/deb"
