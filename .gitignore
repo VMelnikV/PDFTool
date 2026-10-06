@@ -48,3 +48,12 @@ packaging/appimage/*/AppDir/
 packaging/appimage/*/appimage-build/
 packaging/appimage/*/*.AppImage
 .git_backup/
+
+# Full версія (залишається локально, не публікується)
+src/full/
+packaging/appimage/full/
+packaging/debian/full/
+packaging/desktop/appimage/com.melnikv.pdftool.full.desktop
+packaging/desktop/debian/pdf-tool-full.desktop
+requirements/full.txt
+scripts/build-deb-full.sh

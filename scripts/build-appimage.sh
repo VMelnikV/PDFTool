@@ -67,7 +67,7 @@ cd "$PROJECT_ROOT"
 # 3. Створення фінального AppImage
 echo "📦 Створення AppImage..."
 mkdir -p packages/appimage
-ARCH=x86_64 "$PROJECT_ROOT/appimagetool-x86_64.AppImage" \
+ARCH=x86_64 "$HOME/pdf/appimagetool-x86_64.AppImage" \
     "packaging/appimage/$TYPE/AppDir" \
     "packages/appimage/PDFTool-${TYPE^}-${VERSION}.AppImage"
 
