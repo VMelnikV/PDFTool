@@ -1,0 +1,17 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=PDF Tool
+Name[uk]=PDF Tool
+Name[en]=PDF Tool
+Comment=Багатофункціональний інструмент для роботи з PDF
+Comment[uk]=Багатофункціональний інструмент для роботи з PDF
+Comment[en]=Multi-functional tool for working with PDF
+Exec=/usr/bin/pdf-tool
+Icon=pdf-tool
+Terminal=false
+Categories=Office;Graphics;
+MimeType=application/pdf;
+Keywords=pdf;tool;editor;converter;merge;split;compress;
+GenericName=PDF Tool
+StartupNotify=true

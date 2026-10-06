@@ -13,7 +13,7 @@ override_dh_auto_install:
 	chmod +x debian/pdf-tool/usr/bin/pdf-tool
 	
 	mkdir -p debian/pdf-tool/usr/share/applications/
-	cp packaging/desktop/debian/pdf-tool.desktop debian/pdf-tool/usr/share/applications/
+	cp debian/pdf-tool.desktop debian/pdf-tool/usr/share/applications/
 	
 	mkdir -p debian/pdf-tool/usr/share/icons/hicolor/256x256/apps/
 	cp src/common/resources/icons/pdf_icon.png debian/pdf-tool/usr/share/icons/hicolor/256x256/apps/pdf-tool.png
