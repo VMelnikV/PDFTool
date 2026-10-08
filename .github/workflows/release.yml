@@ -1,0 +1,85 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  deb:
+    runs-on: ubuntu-22.04
+    container: ubuntu:22.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install deps
+        run: |
+          apt-get update -qq
+          apt-get install -y -qq wget git file sudo python3 python3-pip python3-venv \
+            ghostscript poppler-utils debhelper dh-python python3-all python3-setuptools
+          pip install PySide6 PyPDFForm pypdf Pillow pdf2image
+
+      - name: Build DEB
+        run: |
+          chmod +x packaging/debian/app/rules
+          mkdir -p packages/deb/
+          ./scripts/build-deb.sh
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: deb-package
+          path: packages/deb/pdf-tool*.deb
+
+  appimage:
+    runs-on: ubuntu-22.04
+    container: ubuntu:22.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install deps
+        run: |
+          apt-get update -qq
+          apt-get install -y -qq wget file git python3 python3-pip python3-venv \
+            gtk-update-icon-cache libgtk-3-0 libgtk-3-bin libfuse2
+          pip install pyinstaller appimage-builder
+          pip install PySide6 PyPDFForm pypdf Pillow
+          wget -q "https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage" \
+            -O appimagetool-x86_64.AppImage
+          chmod +x appimagetool-x86_64.AppImage
+
+      - name: Build AppImage
+        run: |
+          export PATH="$HOME/.local/bin:$PATH"
+          mkdir -p packages/appimage/
+          ./scripts/build-appimage.sh
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: appimage
+          path: packages/appimage/PDFTool*.AppImage
+
+  release:
+    needs: [deb, appimage]
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+
+      - name: Show artifacts
+        run: find artifacts -type f
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            artifacts/deb-package/*.deb
+            artifacts/appimage/*.AppImage
+          generate_release_notes: true
