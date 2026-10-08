@@ -163,20 +163,21 @@ python3 src/app/main.py
 
 Ви можете додати нову мову без перезбірки AppImage:
 Крок 1: Створіть папку
-bash
+```bash
 
 mkdir -p ~/.config/pdf_tool/translations
-
+```
 Крок 2: Скопіюйте шаблон
 
 Скопіюйте en.json з репозиторію як шаблон:
-bash
+```bash
 
 cp src/common/i18n/translations/en.json ~/.config/pdf_tool/translations/pl.json
-
+```
 Крок 3: Перекладіть
 
 Відкрийте pl.json у текстовому редакторі та перекладіть усі значення.
+
 Крок 4: Перезапустіть програму
 
 ```bash
@@ -187,33 +188,67 @@ cp src/common/i18n/translations/en.json ~/.config/pdf_tool/translations/pl.json
 
 ### 📋 Приклад структури
 
+```
 ~/.config/pdf_tool/translations/
 ├── pl.json    ← ваш новий переклад
 ├── uk.json    ← перевизначає вбудований
 └── en.json    ← перевизначає вбудований
+```
 
 ## 📂 Структура проєкту
 
+```
 pdf_tool/
+├── .github/
+│   └── workflows/
+│       ├── ci.yml                 # GitHub Actions: тести
+│       └── release.yml            # GitHub Actions: збірка deb + AppImage
+├── docs/
+│   └── screenshots/               # Скріншоти для README
+├── packaging/
+│   ├── appimage/
+│   │   └── app/                   # Конфіг AppImage
+│   ├── debian/
+│   │   └── app/                   # Файли Debian-пакета
+│   └── desktop/
+│       ├── appimage/              # .desktop для AppImage
+│       └── debian/                # .desktop для Debian
+├── requirements/
+│   └── base.txt                   # Python-залежності
+├── scripts/
+│   ├── build-appimage.sh          # Збірка AppImage
+│   ├── build-deb.sh               # Збірка .deb
+│   └── update-translations.sh     # Оновлення перекладів
 ├── src/
-│   ├── app/                    # Вихідний код
-│   │   ├── main.py             # Точка входу
-│   │   ├── launcher.py         # Перевірка залежностей
-│   │   ├── pdf_tool.py         # Головне вікно
-│   │   ├── tabs/               # Вкладки
-│   │   └── utils/              # Утиліти
-│   └── common/                 # Спільні ресурси
-│       ├── i18n/               # Переклади
-│       └── resources/          # Іконки, стилі
-├── packaging/                  # Файли для пакування
-│   ├── appimage/               # AppImage
-│   ├── debian/                 # Debian
-│   └── desktop/                # .desktop файли
-├── scripts/                    # Скрипти збірки
-├── requirements/               # Python-залежності
-├── docs/                       # Документація
-└── tests/                      # Тести
-
+│   ├── __init__.py
+│   ├── app/                       # Вихідний код застосунку
+│   │   ├── __init__.py
+│   │   ├── launcher.py            # Перевірка залежностей
+│   │   ├── main.py                # Точка входу
+│   │   ├── pdf_tool.py            # Головне вікно
+│   │   ├── tabs/                  # Вкладки (Convert, Merge, Split, Forms, Compress, All-in-One)
+│   │   └── utils/                 # Утиліти
+│   └── common/                    # Спільні ресурси
+│       ├── __init__.py
+│       ├── i18n/                  # Переклади
+│       │   ├── translator.py
+│       │   └── translations/
+│       │       ├── en.json
+│       │       └── uk.json
+│       └── resources/             # Іконки, стилі
+│           ├── icons/
+│           └── styles/
+├── tests/
+│   ├── integration/
+│   │   └── test_gui.py            # GUI-тести
+│   └── unit/
+│       └── test_translator.py     # Unit-тести перекладача
+├── .gitignore
+├── conftest.py                    # Налаштування pytest
+├── LICENSE
+├── pytest.ini
+└── README.md
+```
 ## 🙏 Подяки
 
 DeepSeek — за те, що жодного разу не сказав "це неможливо" 😉
