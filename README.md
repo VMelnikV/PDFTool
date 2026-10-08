@@ -10,7 +10,6 @@
 [![Platform](https://img.shields.io/badge/platform-Linux-orange.svg)](https://www.kernel.org/)
 
 </div>
----
 
 ## 📖 Про програму
 
