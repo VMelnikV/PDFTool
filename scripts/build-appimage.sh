@@ -59,8 +59,17 @@ cd "$PROJECT_ROOT"
 # 3. Створення фінального AppImage
 echo "📦 Створення AppImage..."
 mkdir -p packages/appimage
+
+APPIMAGE_VERSIONED="packages/appimage/PDFTool-${VERSION}.AppImage"
+APPIMAGE_STABLE="packages/appimage/PDFTool-x86_64.AppImage"
+
 ARCH=x86_64 "$APPIMAGETOOL" \
     "packaging/appimage/app/AppDir" \
-    "packages/appimage/PDFTool-${VERSION}.AppImage"
+    "$APPIMAGE_VERSIONED"
 
-echo "✅ AppImage створено: packages/appimage/PDFTool-${VERSION}.AppImage"
+# Копія зі стабільною назвою — для URL "latest/download/PDFTool-x86_64.AppImage"
+cp "$APPIMAGE_VERSIONED" "$APPIMAGE_STABLE"
+
+echo "✅ AppImage створено:"
+echo "   - $APPIMAGE_VERSIONED"
+echo "   - $APPIMAGE_STABLE"

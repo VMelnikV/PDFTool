@@ -60,6 +60,9 @@ jobs:
           mkdir -p packages/appimage/
           ./scripts/build-appimage.sh
 
+      - name: List produced artifacts
+        run: ls -lh packages/appimage/
+
       - uses: actions/upload-artifact@v4
         with:
           name: appimage
