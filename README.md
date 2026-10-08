@@ -270,7 +270,7 @@ PyPDFForm — за заповнення форм
 Детальніше у файлі [LICENSE](https://github.com/VMelnikV/PDFTool/blob/main/LICENSE).
 
 
-<div align="center"> ## Зроблено з ❤️ для спільноти</div>
+## <div align="center">Зроблено з ❤️ для спільноти</div>
 
 <div align="center">
 
