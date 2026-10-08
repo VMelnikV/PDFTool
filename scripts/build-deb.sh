@@ -3,8 +3,13 @@
 
 set -e
 
-# Версія без префіксу "v" (для Debian)
-VERSION=$(git describe --tags --always --dirty 2>/dev/null | sed 's/^v//' || echo "1.0.0")
+# Версія: спершу зі змінної середовища, потім з git describe, потім fallback
+if [ -n "$VERSION" ]; then
+    VERSION="${VERSION#v}"
+else
+    VERSION="$(git describe --tags --always --dirty 2>/dev/null | sed 's/^v//')"
+fi
+VERSION="${VERSION:-1.0.0}"
 
 PROJECT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$PROJECT_ROOT"

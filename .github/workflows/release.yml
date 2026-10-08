@@ -25,10 +25,15 @@ jobs:
           pip install PySide6 PyPDFForm pypdf Pillow pdf2image
 
       - name: Build DEB
+        env:
+          VERSION: ${{ github.ref_name }}
         run: |
           chmod +x packaging/debian/app/rules
           mkdir -p packages/deb/
           ./scripts/build-deb.sh
+
+      - name: List produced artifacts
+        run: ls -lh packages/deb/ || true
 
       - uses: actions/upload-artifact@v4
         with:
@@ -47,14 +52,23 @@ jobs:
         run: |
           apt-get update -qq
           apt-get install -y -qq wget file git python3 python3-pip python3-venv \
-            gtk-update-icon-cache libgtk-3-0 libgtk-3-bin libfuse2
+            gtk-update-icon-cache libgtk-3-0 libgtk-3-bin libfuse2 squashfs-tools
           pip install pyinstaller appimage-builder
           pip install PySide6 PyPDFForm pypdf Pillow
+
+      - name: Download and extract appimagetool
+        run: |
           wget -q "https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage" \
             -O appimagetool-x86_64.AppImage
           chmod +x appimagetool-x86_64.AppImage
+          # Розпаковуємо, бо FUSE в контейнері недоступний
+          ./appimagetool-x86_64.AppImage --appimage-extract
+          mv squashfs-root appimagetool-extracted
+          ls -la appimagetool-extracted/ | head -10
 
       - name: Build AppImage
+        env:
+          VERSION: ${{ github.ref_name }}
         run: |
           export PATH="$HOME/.local/bin:$PATH"
           mkdir -p packages/appimage/

@@ -3,17 +3,28 @@
 
 set -e
 
-# Версія без префіксу "v"
-VERSION=$(git describe --tags --always --dirty 2>/dev/null | sed 's/^v//' || echo "1.0.0")
+# Версія: спершу зі змінної середовища, потім з git describe, потім fallback
+if [ -n "$VERSION" ]; then
+    VERSION="${VERSION#v}"
+else
+    VERSION="$(git describe --tags --always --dirty 2>/dev/null | sed 's/^v//')"
+fi
+VERSION="${VERSION:-1.0.0}"
 
 echo "🪶 Збірка AppImage (версія: $VERSION)..."
 
 PROJECT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$PROJECT_ROOT"
 
-# Пошук appimagetool
+# Пошук appimagetool — спершу розпакований, потім як AppImage, потім системний
 APPIMAGETOOL=""
-for path in "$PROJECT_ROOT/appimagetool-x86_64.AppImage" "$HOME/pdf/appimagetool-x86_64.AppImage" "/usr/local/bin/appimagetool"; do
+for path in \
+    "$PROJECT_ROOT/appimagetool" \
+    "$PROJECT_ROOT/appimagetool-extracted/AppRun" \
+    "$PROJECT_ROOT/appimagetool-x86_64.AppImage" \
+    "$HOME/pdf/appimagetool-x86_64.AppImage" \
+    "/usr/local/bin/appimagetool"
+do
     if [ -f "$path" ]; then
         APPIMAGETOOL="$path"
         break
