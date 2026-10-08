@@ -9,6 +9,8 @@ on:
 jobs:
   test:
     runs-on: ubuntu-22.04
+    env:
+      PYTHONPATH: ${{ github.workspace }}
     strategy:
       fail-fast: false
       matrix:
