@@ -265,6 +265,11 @@ pypdf — за маніпуляції з PDF
 
 PyPDFForm — за заповнення форм
 
+## 📄 Ліцензія
+
+Детальніше у файлі [LICENSE](https://github.com/VMelnikV/PDFTool/blob/main/LICENSE).
+
+
 <div align="center"> Зроблено з ❤️ для спільноти</div>
 
 <div align="center">
@@ -274,10 +279,4 @@ PyPDFForm — за заповнення форм
 ![https://send.monobank.ua/5M8pMbQG3A](/docs/screenshots/mono.png)
 
 https://send.monobank.ua/5M8pMbQG3A
-
-
 </div>
-
-## 📄 Ліцензія
-
-Детальніше у файлі [LICENSE](https://github.com/VMelnikV/PDFTool/blob/main/LICENSE).
