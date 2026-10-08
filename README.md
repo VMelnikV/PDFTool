@@ -6,7 +6,6 @@
 [![License](https://img.shields.io/badge/license-Custom%20Non--Commercial-red.svg)](https://github.com/VMelnikV/PDFTool/blob/main/LICENSE)
 [![Python](https://img.shields.io/badge/python-3.12-blue.svg)](https://www.python.org/)
 [![Platform](https://img.shields.io/badge/platform-Linux-orange.svg)](https://www.kernel.org/)
-[![Crowdin](https://badges.crowdin.net/pdf-tool/localized.svg)](https://uk.crowdin.com/project/pdf-tool-for-linux)
 
 ---
 
