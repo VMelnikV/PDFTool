@@ -2,6 +2,12 @@
 
 **Потужний, безкоштовний та зручний застосунок для роботи з PDF-файлами**
 
+[![Version](https://img.shields.io/badge/version-1.2-blue.svg)](https://github.com/VMelnikV/PDFTool/releases)
+[![License](https://img.shields.io/badge/license-Custom%20Non--Commercial-red.svg)](https://github.com/VMelnikV/PDFTool/blob/main/LICENSE)
+[![Python](https://img.shields.io/badge/python-3.12-blue.svg)](https://www.python.org/)
+[![Platform](https://img.shields.io/badge/platform-Linux-orange.svg)](https://www.kernel.org/)
+[![Crowdin](https://badges.crowdin.net/pdf-tool/localized.svg)](https://uk.crowdin.com/project/pdf-tool-for-linux)
+
 ---
 
 ## 📖 Про програму
@@ -116,7 +122,7 @@
 
 ```bash
 # Завантажте останню версію
-wget https://gitlab.com/MelnikV/pdf_tool/-/releases/latest/download/PDFTool-x86_64.AppImage
+wget https://github.com/VMelnikV/PDFTool/releases/latest/download/PDFTool-x86_64.AppImage
 
 # Зробіть виконуваним
 chmod +x PDFTool-x86_64.AppImage
@@ -126,12 +132,20 @@ sudo apt install ghostscript
 
 # Запустіть
 ./PDFTool-x86_64.AppImage
+```
+### DEB-пакет (альтернатива AppImage)
 
-З вихідного коду
-bash
+```bash
+wget https://github.com/VMelnikV/PDFTool/releases/latest/download/pdf-tool_1.0.2-1_all.deb
+sudo apt install ./pdf-tool_1.0.2-1_all.deb
+```
+*За потреби змініть версію на актуальну, яку можна дізнатись на [сторінці релізів](https://github.com/VMelnikV/PDFTool/releases)*
+
+### З вихідного коду
+```bash
 
 # Клонуйте репозиторій
-git clone https://gitlab.com/MelnikV/pdf_tool.git
+git clone https://github.com/VMelnikV/PDFTool.git
 cd pdf_tool
 
 # Встановіть залежності
@@ -164,9 +178,7 @@ cp src/common/i18n/translations/en.json ~/.config/pdf_tool/translations/pl.json
 Відкрийте pl.json у текстовому редакторі та перекладіть усі значення.
 Крок 4: Перезапустіть програму
 
-```
-bash
-
+```bash
 ./PDFTool-x86_64.AppImage
 ```
 
@@ -217,11 +229,19 @@ pypdf — за маніпуляції з PDF
 
 PyPDFForm — за заповнення форм
 
-Зроблено з ❤️ для спільноти
-Якщо є бажання віддячити та підтримати мене
+<div align="center"> Зроблено з ❤️ для спільноти</div>
+
+<div align="center">
+
+## Якщо є бажання віддячити та підтримати мене
+
+![https://send.monobank.ua/5M8pMbQG3A](/docs/screenshots/mono.png)
 
 https://send.monobank.ua/5M8pMbQG3A
 
+
+</div>
+
 ## 📄 Ліцензія
 
-MIT License. Детальніше у файлі LICENSE.
+Детальніше у файлі [LICENSE](https://github.com/VMelnikV/PDFTool/blob/main/LICENSE).
