@@ -1,5 +1,12 @@
-pdf-tool (1.0.0-1) stable; urgency=medium
+pdf-tool (1.0.0-1) unstable; urgency=medium
 
-  * Перший реліз PDF Tool
+  * Вікно перевірки залежностей (PySide6 + CLI fallback)
+  * Діалог оновлення залежностей через PyPI JSON API
+  * Вкладка налаштувань ⚙️ (мова, перевірка, оновлення)
+  * Меню «Довідка → Перевірити залежності» (Ctrl+Shift+D)
+  * CLI: --check-only, --json, --strict, --ui, --force, --version
+  * Локалізація (uk / en) для всіх нових діалогів
+  * Модуль version.py — єдине джерело версії
+  * Збереження налаштувань у ~/.config/pdf_tool/config.json
 
- -- VMelnik <melnik@melnik.im>  Thu, 06 Oct 2026 12:00:00 +0300
+ -- VMelnik <melnik@melnik.im>  Thu, 09 Oct 2026 17:00:00 +0300

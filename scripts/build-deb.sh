@@ -26,7 +26,7 @@ cp -r src "$BUILD_DIR/"
 cp -r packaging/debian/app "$BUILD_DIR/debian"
 
 # Додаємо версію в changelog
-sed -i "s/1.0.0/$VERSION/g" "$BUILD_DIR/debian/changelog"
+sed -i "s|^pdf-tool (1\.0\.0-1)|pdf-tool ($VERSION-1)|" "$BUILD_DIR/debian/changelog"
 
 # Збірка
 cd "$BUILD_DIR"
