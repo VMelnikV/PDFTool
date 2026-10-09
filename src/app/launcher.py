@@ -1,290 +1,157 @@
 #!/usr/bin/env python3
-"""
-PDF Tool Launcher
-Перевіряє наявність системних бібліотек та запускає програму
+"""PDF Tool Launcher.
+
+Точка входу для AppImage і .deb:
+  1. Перевіряє залежності (config.get_check_on_startup()).
+  2. Якщо потрібно — показує QtDependencyWindow (або CLI).
+  3. Якщо все OK — запускає main.py.
+
+CLI-прапорці:
+    --check-only         тільки перевірка, без запуску GUI
+    --json               вивід звіту у JSON (для скриптів)
+    --strict             exit code != 0 при критичних (для CI)
+    --ui=qt|cli          примусовий вибір інтерфейсу
+    --force              запустити, навіть якщо є критичні помилки
+    --no-startup-check   пропустити перевірку при старті (разово)
+    --help, -h           довідка
 """
 
-import sys
-import subprocess
-import importlib.util
+from __future__ import annotations
+
+import argparse
 import os
-from typing import Dict, List, Tuple
+import sys
 
-# ==================================================
-# НАЛАШТУВАННЯ ШЛЯХІВ
-# ==================================================
-
+# ── Шляхи ───────────────────────────────────────────────────
 current_dir = os.path.dirname(os.path.abspath(__file__))
 src_dir = os.path.dirname(current_dir)
 
-# Додаємо шлях до src для common
 if src_dir not in sys.path:
     sys.path.insert(0, src_dir)
-
-# Додаємо поточну папку для main.py та pdf_tool.py
 if current_dir not in sys.path:
     sys.path.insert(0, current_dir)
 
-# ==================================================
-# ІМПОРТ ПЕРЕКЛАДІВ
-# ==================================================
 
-try:
-    from common.i18n.translator import translator
-except ImportError:
-    class FallbackTranslator:
-        def tr(self, key, context='common'):
-            return key
-    translator = FallbackTranslator()
+# ── Argument parsing ────────────────────────────────────────
 
-# ==================================================
-# СПИСОК НЕОБХІДНИХ БІБЛІОТЕК
-# ==================================================
-
-REQUIREMENTS = {
-    "PySide6": {
-        "pip": "PySide6",
-        "apt": "python3-pyside6",
-        "import_name": "PySide6",
-        "check_cmd": "python3 -c 'import PySide6'"
-    },
-    "Pillow": {
-        "pip": "Pillow",
-        "apt": "python3-pil",
-        "import_name": "PIL",
-        "check_cmd": "python3 -c 'import PIL'"
-    },
-    "pypdf": {
-        "pip": "pypdf",
-        "apt": "python3-pypdf",
-        "import_name": "pypdf",
-        "check_cmd": "python3 -c 'import pypdf'"
-    },
-    "PyPDFForm": {
-        "pip": "PyPDFForm",
-        "apt": "",  # Немає в репозиторіях
-        "import_name": "PyPDFForm",
-        "check_cmd": "python3 -c 'import PyPDFForm'"
-    },
-    "Ghostscript": {
-        "pip": "",
-        "apt": "ghostscript",
-        "import_name": None,
-        "is_binary": True,
-        "binary": "gs",
-        "check_cmd": "which gs"
-    }
-}
+def _parse_args(argv: list[str] | None = None) -> argparse.Namespace:
+    parser = argparse.ArgumentParser(
+        prog="pdf-tool",
+        description="PDF Tool — універсальний редактор PDF.",
+        add_help=False,  # власна обробка --help
+    )
+    parser.add_argument("--check-only", action="store_true",
+                        help="Тільки перевірити залежності")
+    parser.add_argument("--json", action="store_true",
+                        help="Вивести звіт у JSON")
+    parser.add_argument("--strict", action="store_true",
+                        help="Exit code 3 при критичних помилках (для CI)")
+    parser.add_argument("--ui", choices=["qt", "cli"], default=None,
+                        help="Примусовий вибір інтерфейсу")
+    parser.add_argument("--force", action="store_true",
+                        help="Запустити навіть з критичними помилками")
+    parser.add_argument("--no-startup-check", action="store_true",
+                        help="Пропустити перевірку при старті (разово)")
+    parser.add_argument("--version", action="store_true",
+                        help="Показати версію і вийти")
+    parser.add_argument("-h", "--help", action="store_true",
+                        help="Довідка")
+    return parser.parse_args(argv)
 
 
-class DependencyChecker:
-    """Перевіряє наявність залежностей в системі"""
-    
-    def __init__(self):
-        self.missing = []
-        self.installed = []
-    
-    def check_python_module(self, module_name: str) -> bool:
-        """Перевіряє чи встановлений Python-модуль в системі"""
-        try:
-            if importlib.util.find_spec(module_name) is not None:
-                return True
-            return False
-        except (ImportError, AttributeError):
-            return False
-    
-    def check_system_binary(self, binary_name: str) -> bool:
-        """Перевіряє чи існує системна утиліта"""
-        try:
-            result = subprocess.run(
-                ['which', binary_name],
-                capture_output=True,
-                text=True
-            )
-            return result.returncode == 0 and result.stdout.strip() != ""
-        except:
-            return False
-    
-    def check_all(self) -> Tuple[List[str], List[str]]:
-        """Перевіряє всі залежності"""
-        print(f"\n{translator.tr('launcher_checking', 'launcher')}")
-        print("-" * 50)
-        
-        for name, info in REQUIREMENTS.items():
-            is_installed = False
-            
-            if info.get("is_binary", False):
-                is_installed = self.check_system_binary(info["binary"])
-            else:
-                is_installed = self.check_python_module(info["import_name"])
-            
-            if is_installed:
-                self.installed.append(name)
-                print(f"  ✅ {name} - {translator.tr('launcher_found', 'launcher')}")
-            else:
-                self.missing.append(name)
-                print(f"  ❌ {name} - {translator.tr('launcher_not_found', 'launcher')}")
-        
-        print("-" * 50)
-        print(f"✅ {translator.tr('launcher_installed', 'launcher').format(count=len(self.installed), total=len(REQUIREMENTS))}")
-        
-        return self.installed, self.missing
-    
-    def show_install_instructions(self):
-        """Показує інструкції для встановлення відсутніх бібліотек"""
-        if not self.missing:
-            return
-        
-        print("\n" + "=" * 60)
-        print(f"⚠️  {translator.tr('launcher_missing_header', 'launcher')}")
-        print("=" * 60)
-        
-        print(f"\n{translator.tr('launcher_missing_list', 'launcher')}")
-        for name in self.missing:
-            print(f"  ❌ {name}")
-        
-        print("\n" + "-" * 60)
-        print(f"📦 {translator.tr('launcher_how_to_install', 'launcher')}")
-        print("-" * 60)
-        
-        # Групуємо команди
-        apt_packages = []
-        pip_packages = []
-        manual = []
-        
-        for name in self.missing:
-            info = REQUIREMENTS[name]
-            if info.get("apt"):
-                apt_packages.append(info["apt"])
-            elif info.get("pip"):
-                pip_packages.append(info["pip"])
-            else:
-                manual.append(name)
-        
-        if apt_packages:
-            print(f"\n📌 {translator.tr('launcher_through_apt', 'launcher')}")
-            print(f"  sudo apt install {' '.join(apt_packages)}")
-        
-        if pip_packages:
-            print(f"\n📌 {translator.tr('launcher_through_pip', 'launcher')}")
-            for pkg in pip_packages:
-                print(f"  pip install {pkg}")
-        
-        if manual:
-            print(f"\n📌 {translator.tr('launcher_manual', 'launcher')}")
-            for name in manual:
-                print(f"  {name}")
-        
-        print("\n" + "=" * 60)
-        print(f"💡 {translator.tr('launcher_after_install', 'launcher')}")
-        print("=" * 60 + "\n")
-        
-        # Пропонуємо автоматичне встановлення
-        if apt_packages or pip_packages:
-            print(f"\n❓ {translator.tr('launcher_auto_install_question', 'launcher')}")
-            print(f"   {translator.tr('launcher_sudo_note', 'launcher')}")
-            response = input(f"   {translator.tr('launcher_enter_y_or_n', 'launcher')} ").strip().lower()
-            if response == 'y':
-                self.auto_install(apt_packages, pip_packages)
-    
-    def auto_install(self, apt_packages, pip_packages):
-        """Автоматично встановлює відсутні залежності"""
-        print(f"\n🔧 {translator.tr('launcher_installing', 'launcher')}")
-        
-        if apt_packages:
-            print(f"📦 {translator.tr('launcher_installing_apt', 'launcher').format(packages=' '.join(apt_packages))}")
-            try:
-                subprocess.run(
-                    ['sudo', 'apt', 'install', '-y'] + apt_packages,
-                    check=True
-                )
-                print(f"✅ {translator.tr('launcher_apt_done', 'launcher')}")
-            except subprocess.CalledProcessError:
-                print(f"❌ {translator.tr('launcher_apt_error', 'launcher')}")
-        
-        if pip_packages:
-            print(f"📦 {translator.tr('launcher_installing_pip', 'launcher').format(packages=' '.join(pip_packages))}")
-            try:
-                subprocess.run(
-                    [sys.executable, '-m', 'pip', 'install'] + pip_packages,
-                    check=True
-                )
-                print(f"✅ {translator.tr('launcher_pip_done', 'launcher')}")
-            except subprocess.CalledProcessError:
-                print(f"❌ {translator.tr('launcher_pip_error', 'launcher')}")
+def _print_help() -> None:
+    print("""PDF Tool — універсальний редактор PDF
 
+Використання:
+    python launcher.py [ОПЦІЇ]
 
-def print_help():
-    """Показує довідку"""
-    print(f"""
-{translator.tr('launcher_help_title', 'launcher')}
+Опції:
+    --check-only         Тільки перевірити залежності, не запускати GUI
+    --json               Вивести звіт у форматі JSON (для скриптів)
+    --strict             Exit code 3 при критичних помилках (для CI)
+    --ui=qt|cli          Примусовий вибір інтерфейсу
+    --force              Запустити, навіть якщо є критичні помилки
+    --no-startup-check   Пропустити перевірку при старті (разово)
+    --version            Показати версію і вийти
+    -h, --help           Показати цю довідку
 
-{translator.tr('launcher_help_description', 'launcher')}
-
-{translator.tr('launcher_help_usage', 'launcher')}
-    python3 launcher.py [OPTIONS]
-
-{translator.tr('launcher_help_options', 'launcher')}
-    --help, -h         {translator.tr('launcher_help_help', 'launcher')}
-    --check-only       {translator.tr('launcher_help_check_only', 'launcher')}
-    --install          {translator.tr('launcher_help_install', 'launcher')}
-    --force            {translator.tr('launcher_help_force', 'launcher')}
-
-{translator.tr('launcher_help_example', 'launcher')}
-    python3 launcher.py          {translator.tr('launcher_help_example_check', 'launcher')}
-    python3 launcher.py --check-only   {translator.tr('launcher_help_example_check_only', 'launcher')}
-    python3 launcher.py --install      {translator.tr('launcher_help_example_install', 'launcher')}
+Приклади:
+    python launcher.py                    # перевірити (за потреби) і запустити
+    python launcher.py --check-only       # тільки перевірити
+    python launcher.py --check-only --json
+    python launcher.py --force            # запустити, ігноруючи критичні
 """)
 
 
-def main():
-    """Головна функція"""
-    args = sys.argv[1:]
-    
-    if "--help" in args or "-h" in args:
-        print_help()
+# ── Головна функція ─────────────────────────────────────────
+
+def main(argv: list[str] | None = None) -> int:
+    args = _parse_args(argv)
+
+    if args.help:
+        _print_help()
         return 0
-    
-    checker = DependencyChecker()
-    installed, missing = checker.check_all()
-    
-    if "--install" in args and missing:
-        checker.show_install_instructions()
-        installed, missing = checker.check_all()
-        if not missing:
-            print(f"\n✅ {translator.tr('launcher_all_installed', 'launcher')}")
-    
-    if "--check-only" in args:
-        if missing:
-            print(f"\n⚠️  {translator.tr('launcher_some_missing', 'launcher')}")
-            checker.show_install_instructions()
-        else:
-            print(f"\n✅ {translator.tr('launcher_all_installed', 'launcher')}")
-        return 1 if missing else 0
-    
-    if missing and "--force" not in args:
-        checker.show_install_instructions()
-        return 1
-    
-    if "--force" in args and missing:
-        print(f"\n⚠️  {translator.tr('launcher_force_warning', 'launcher')}")
-    
-    print(f"\n🚀 {translator.tr('launcher_starting', 'launcher')}")
-    print("-" * 50 + "\n")
-    
+
+    if args.version:
+        from common.version import __version__
+        print(f"PDF Tool {__version__}")
+        return 0
+
+    # 1. EnvInfo + перевірки
+    from common.deps.env import detect_env
+    from common.deps.report import run_all_checks
+
+    env = detect_env()
+    report = run_all_checks(env)
+
+    # 2. Режим --check-only: тільки CLI-звіт
+    if args.check_only:
+        from common.deps.ui.cli_report import run_cli_report
+
+        return run_cli_report(
+            report,
+            json_mode=args.json,
+            strict=args.strict,
+        )
+
+    # 3. Визначаємо, чи треба перевіряти при старті
     try:
-        # Імпортуємо main.py з поточної папки
+        from common.deps.config import Config
+        cfg = Config()
+        check_on_startup = cfg.get_check_on_startup()
+    except Exception:
+        check_on_startup = True
+
+    if args.no_startup_check:
+        check_on_startup = False
+
+    # 4. Показуємо вікно (або CLI), якщо потрібно
+    if check_on_startup:
+        from common.deps.ui.launcher import run_window
+        from common.deps.ui.base import DialogResult
+
+        result = run_window(
+            report,
+            force=args.ui,
+            json_mode=args.json,  # для CLI-режиму
+        )
+
+        if result != DialogResult.CONTINUE and not args.force:
+            return 1
+
+    # 5. Все OK (або --force) — запускаємо головний застосунок
+    try:
         import main
         main.main()
+        return 0
     except ImportError as e:
-        print(f"❌ {translator.tr('launcher_import_error', 'launcher')}: {e}")
-        print(translator.tr('launcher_check_main', 'launcher'))
+        print(f"❌ Не вдалось імпортувати main.py: {e}", file=sys.stderr)
+        print("Переконайтеся, що main.py знаходиться поряд з launcher.py.",
+              file=sys.stderr)
         return 1
-    except Exception as e:
-        print(f"❌ {translator.tr('launcher_run_error', 'launcher')}: {e}")
+    except Exception as e:  # noqa: BLE001
+        print(f"❌ Помилка запуску: {e}", file=sys.stderr)
         return 1
-    
-    return 0
 
 
 if __name__ == "__main__":

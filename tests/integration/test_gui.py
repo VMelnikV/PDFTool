@@ -29,14 +29,14 @@ class TestPDFToolGUI(unittest.TestCase):
         self.assertIn("PDF Tool", title)
 
     def test_tabs_count(self):
-        """У вікні є QTabWidget із 6 вкладками (Convert, Merge, Split,
-        Forms, Compress, All-in-One)."""
+        """У вікні є QTabWidget із 7 вкладками:
+        Convert, Merge, Split, Forms, Compress, All-in-One, Settings."""
         tab_widget = self.window.findChild(QTabWidget)
         self.assertIsNotNone(tab_widget, "QTabWidget не знайдено у вікні")
         self.assertEqual(
             tab_widget.count(),
-            6,
-            f"Очікувалось 6 вкладок, отримано {tab_widget.count()}: "
+            7,
+            f"Очікувалось 7 вкладок, отримано {tab_widget.count()}: "
             f"{[tab_widget.tabText(i) for i in range(tab_widget.count())]}",
         )
 

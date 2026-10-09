@@ -4,7 +4,7 @@
 
 ![PDF Tool](/docs/screenshots/pdf_icon.png)
 
-[![Version](https://img.shields.io/badge/version-1.2-blue.svg)](https://github.com/VMelnikV/PDFTool/releases)
+[![Version](https://img.shields.io/badge/version-1.1.0-blue.svg)](https://github.com/VMelnikV/PDFTool/releases)
 [![License](https://img.shields.io/badge/license-Custom%20Non--Commercial-red.svg)](https://github.com/VMelnikV/PDFTool/blob/main/LICENSE)
 [![Python](https://img.shields.io/badge/python-3.12-blue.svg)](https://www.python.org/)
 [![Platform](https://img.shields.io/badge/platform-Linux-orange.svg)](https://www.kernel.org/)
@@ -46,6 +46,21 @@
   <img src="docs/screenshots/5.png" alt="Стиснення PDF" width="600"/>
 </div>
 
+### <div align="center">Все в одному</div>
+<div align="center">
+  <img src="docs/screenshots/6.png" alt="Все в одному" width="600"/>
+</div>
+
+### <div align="center">Налаштування</div>
+<div align="center">
+  <img src="docs/screenshots/7.png" alt="Налаштування (шестерінка)" width="600"/>
+</div>
+
+### <div align="center">Перевірка залежностей</div>
+<div align="center">
+  <img src="docs/screenshots/8.png" alt="Перевірка залежностей" width="600"/>
+</div>
+
 ---
 
 ## 🚀 Основні можливості
@@ -83,6 +98,65 @@
 
 ---
 
+## 🔍 Перевірка залежностей
+
+При першому запуску PDF Tool автоматично перевіряє всі залежності:
+PySide6, Pillow, pypdf, PyPDFForm, pdf2image, Ghostscript, poppler-utils
+та системні вимоги (Linux, права на запис, вільне місце).
+
+**Що перевіряється:**
+- 🐍 **Python-бібліотеки** — версія, наявність, сумісність
+- 🔧 **Системні утиліти** — Ghostscript, poppler-utils
+- 💻 **Середовище** — venv / conda / pipx / system
+- 🐧 **ОС** — Linux, дистрибутив, WSL, PEP 668
+- 📁 **Файлова система** — права на запис, вільне місце
+- 🌐 **Локалізація** — наявність мовних файлів
+
+**Що робить, якщо чогось немає:**
+- Показує **готову інструкцію з встановлення** (з урахуванням venv / PEP 668 / дистрибутива)
+- Пропонує **автовстановлення** через pip (без sudo)
+- Кнопка **«Копіювати»** — завжди без sudo (безпечніше)
+
+**Де керувати:**
+- Вкладка **⚙️** (шестерінка) — чекбокс «Перевіряти при старті»
+- Меню **Довідка → Перевірити залежності** (Ctrl+Shift+D)
+- CLI: `python launcher.py --check-only`
+
+### 🔄 Оновлення залежностей
+
+Кнопка **«Оновити залежності»** у шестерінці:
+- Перевіряє PyPI на нові версії
+- Показує список: `Pillow 12.2.0 → 12.3.0`
+- Дозволяє вибрати, що оновлювати (чекбокси)
+- При помилці — показує **альтернативні варіанти**
+- Після успіху — попереджає про перезапуск
+
+### 💻 CLI-режим
+
+Для скриптів і CI:
+
+```bash
+# Тільки перевірка, без запуску GUI
+python launcher.py --check-only
+
+# Вивід у JSON
+python launcher.py --check-only --json
+
+# Строгий режим (exit code != 0 при критичних)
+python launcher.py --check-only --strict
+
+# Примусово вибрати UI
+python launcher.py --ui=cli
+
+# Запустити, ігноруючи критичні помилки
+python launcher.py --force
+
+# Показати версію
+python launcher.py --version
+```
+
+---
+
 ## 🎯 Ключові особливості
 
 - **Drag & Drop** — просто перетягніть файли у вікно програми
@@ -105,6 +179,15 @@
 | **pypdf** | Маніпуляції з PDF (об'єднання, розділення) |
 | **PyPDFForm** | Заповнення PDF-форм |
 | **Ghostscript** | Стиснення PDF (системний) |
+
+### Внутрішні модулі
+
+| Модуль | Опис |
+|--------|------|
+| `common.deps` | Перевірка залежностей і оновлення |
+| `common.deps.ui` | Вікна перевірки (PySide6 + CLI) |
+| `common.version` | Єдине джерело версії |
+| `common.i18n` | Локалізація (uk / en) |
 
 ---
 
@@ -137,8 +220,8 @@ sudo apt install ghostscript
 ### DEB-пакет (альтернатива AppImage)
 
 ```bash
-wget https://github.com/VMelnikV/PDFTool/releases/latest/download/pdf-tool_1.0.2-1_all.deb
-sudo apt install ./pdf-tool_1.0.2-1_all.deb
+wget https://github.com/VMelnikV/PDFTool/releases/latest/download/pdf-tool_1.1.0-1_all.deb
+sudo apt install ./pdf-tool_1.1.0-1_all.deb
 ```
 *За потреби змініть версію на актуальну, яку можна дізнатись на [сторінці релізів](https://github.com/VMelnikV/PDFTool/releases)*
 
@@ -201,53 +284,120 @@ cp src/common/i18n/translations/en.json ~/.config/pdf_tool/translations/pl.json
 pdf_tool/
 ├── .github/
 │   └── workflows/
-│       ├── ci.yml                 # GitHub Actions: тести
-│       └── release.yml            # GitHub Actions: збірка deb + AppImage
+│       ├── ci.yml                      # GitHub Actions: тести (unit + integration)
+│       └── release.yml                 # GitHub Actions: збірка .deb + AppImage при тегу v*
 ├── docs/
-│   └── screenshots/               # Скріншоти для README
+│   └── screenshots/                    # Скріншоти для README (1.png … 5.png)
 ├── packaging/
 │   ├── appimage/
-│   │   └── app/                   # Конфіг AppImage
+│   │   └── app/
+│   │       └── AppImageBuilder.yml     # Конфіг збірки AppImage
 │   ├── debian/
-│   │   └── app/                   # Файли Debian-пакета
+│   │   └── app/
+│   │       ├── control                 # Метадані Debian-пакета (залежності, опис)
+│   │       ├── changelog               # Історія версій для deb
+│   │       ├── copyright               # Ліцензія для deb
+│   │       ├── rules                   # Правила збірки deb
+│   │       ├── postinst                # Скрипт після встановлення
+│   │       ├── prerm                   # Скрипт перед видаленням
+│   │       └── pdf-tool.desktop        # Ярлик у меню застосунків
 │   └── desktop/
-│       ├── appimage/              # .desktop для AppImage
-│       └── debian/                # .desktop для Debian
+│       ├── appimage/
+│       │   └── com.melnikv.pdftool.desktop    # .desktop для AppImage
+│       └── debian/
+│           └── pdf-tool.desktop               # .desktop для deb
 ├── requirements/
-│   └── base.txt                   # Python-залежності
+│   └── base.txt                        # Python-залежності (PySide6, Pillow, pypdf, …)
 ├── scripts/
-│   ├── build-appimage.sh          # Збірка AppImage
-│   ├── build-deb.sh               # Збірка .deb
-│   └── update-translations.sh     # Оновлення перекладів
+│   ├── build-appimage.sh               # Скрипт збірки AppImage
+│   ├── build-deb.sh                    # Скрипт збірки .deb
+│   └── update-translations.sh          # Оновлення перекладів з GitHub
 ├── src/
 │   ├── __init__.py
-│   ├── app/                       # Вихідний код застосунку
+│   ├── app/                            # Вихідний код застосунку
 │   │   ├── __init__.py
-│   │   ├── launcher.py            # Перевірка залежностей
-│   │   ├── main.py                # Точка входу
-│   │   ├── pdf_tool.py            # Головне вікно
-│   │   ├── tabs/                  # Вкладки (Convert, Merge, Split, Forms, Compress, All-in-One)
-│   │   └── utils/                 # Утиліти
-│   └── common/                    # Спільні ресурси
+│   │   ├── launcher.py                 # Точка входу: перевірка → GUI
+│   │   │                               #   CLI: --check-only, --json, --strict,
+│   │   │                               #        --ui, --force, --version, --help
+│   │   ├── main.py                     # QApplication + показ PDFTool
+│   │   ├── pdf_tool.py                 # Головне вікно (QTabWidget + меню)
+│   │   ├── README.md                   # Внутрішня документація для розробників
+│   │   ├── tabs/                       # Вкладки головного вікна
+│   │   │   ├── __init__.py
+│   │   │   ├── convert_tab.py          # 🖼️ Конвертація зображень у PDF
+│   │   │   ├── merge_tab.py            # 📄 Об'єднання PDF
+│   │   │   ├── split_tab.py            # ✂️ Розділення PDF
+│   │   │   ├── forms_tab.py            # ✍️ Заповнення форм
+│   │   │   ├── compress_tab.py         # 📦 Стиснення PDF (Ghostscript)
+│   │   │   ├── all_in_one_tab.py       # 🔄 Все в одному (конвертація+об'єднання+стиснення)
+│   │   │   └── settings_tab.py         # ⚙️ Шестерінка (мова, залежності, оновлення)
+│   │   └── utils/
+│   │       ├── __init__.py
+│   │       └── pdf_utils.py            # Спільні утиліти (Drag&Drop, робота з файлами)
+│   └── common/                         # Спільні модулі для app/ і тестів
 │       ├── __init__.py
-│       ├── i18n/                  # Переклади
-│       │   ├── translator.py
+│       ├── version.py                  # Єдине джерело версії (__version__)
+│       ├── deps/                       # Модуль перевірки залежностей
+│       │   ├── __init__.py
+│       │   ├── env.py                  # EnvInfo: venv/conda/pipx/system,
+│       │   │                           #   дистрибутив Linux, WSL, PEP 668
+│       │   ├── style.py                # Статуси (Status), іконки, кольори,
+│       │   │                           #   бейджі «критично»/«опційно», ANSI
+│       │   ├── instructions.py         # Генерація інструкцій встановлення
+│       │   │                           #   (venv / conda / pipx / system / PEP 668)
+│       │   ├── report.py               # CheckReport, run_all_checks
+│       │   ├── updater.py              # Перевірка PyPI + pip install -U
+│       │   ├── config.py               # ~/.config/pdf_tool/config.json
+│       │   ├── checks/                 # Окремі перевірки
+│       │   │   ├── __init__.py
+│       │   │   ├── base.py             # Check, CheckResult (абстрактний контракт)
+│       │   │   ├── registry.py         # CHECKS: список усіх перевірок
+│       │   │   ├── platform_check.py   # Linux-only
+│       │   │   ├── python_check.py     # Python ≥ 3.10
+│       │   │   ├── pyside_check.py     # PySide6 ≥ 6.5
+│       │   │   ├── lib_check.py        # Універсальний для Python-бібліотек
+│       │   │   ├── external_check.py   # Універсальний для системних утиліт
+│       │   │   ├── wsl_check.py        # Попередження для WSL
+│       │   │   ├── pep668_check.py     # PEP 668 (externally-managed)
+│       │   │   ├── fs_check.py         # Права на запис + вільне місце
+│       │   │   ├── config_check.py     # Валідність config.json
+│       │   │   └── locale_check.py     # Наявність мовних файлів
+│       │   └── ui/                     # Вікна перевірки
+│       │       ├── __init__.py
+│       │       ├── base.py             # DependencyWindowBase, DialogResult
+│       │       ├── launcher.py         # Вибір UI (qt → cli за каскадом)
+│       │       ├── qt_window.py        # PySide6-вікно перевірки
+│       │       ├── cli_report.py       # CLI-вивід (fallback)
+│       │       └── update_dialog.py    # Діалог оновлення залежностей
+│       ├── i18n/                       # Локалізація
+│       │   ├── __init__.py
+│       │   ├── translator.py           # Translator: tr(), trf(), set_language()
 │       │   └── translations/
-│       │       ├── en.json
-│       │       └── uk.json
-│       └── resources/             # Іконки, стилі
+│       │       ├── en.json             # Англійська
+│       │       ├── uk.json             # Українська
+│       │       └── .gitkeep
+│       └── resources/                  # Статичні ресурси
 │           ├── icons/
+│           │   ├── pdf_icon.png        # Іконка застосунку
+│           │   ├── mono.png            # Іконка Monobank (для README)
+│           │   └── .gitkeep
 │           └── styles/
+│               └── .gitkeep            # Майбутні QSS-стилі
 ├── tests/
 │   ├── integration/
-│   │   └── test_gui.py            # GUI-тести
+│   │   ├── test_gui.py                 # GUI-тести (offscreen Qt)
+│   │   └── .gitkeep
 │   └── unit/
-│       └── test_translator.py     # Unit-тести перекладача
-├── .gitignore
-├── conftest.py                    # Налаштування pytest
-├── LICENSE
-├── pytest.ini
-└── README.md
+│       ├── test_translator.py          # Тести перекладача
+│       ├── test_deps_env.py            # Тести EnvInfo, PEP 668, дистрибутива
+│       ├── test_deps_instructions.py   # Тести strip_sudo, інструкцій
+│       ├── test_deps_report.py         # Тести CheckReport, run_all_checks
+│       └── .gitkeep
+├── .gitignore                          # Ігнорування .venv, __pycache__, build/, …
+├── conftest.py                         # Налаштування pytest (sys.path)
+├── LICENSE                             # Кастомна non-commercial ліцензія
+├── pytest.ini                          # Конфіг pytest
+└── README.md                           # Цей файл
 ```
 ## 🙏 Подяки
 
@@ -280,3 +430,4 @@ PyPDFForm — за заповнення форм
 
 https://send.monobank.ua/5M8pMbQG3A
 </div>
+

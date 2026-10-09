@@ -5,7 +5,8 @@
     "status_processing": "Processing...",
     "status_done": "Done!",
     "status_error": "Error",
-    "status_loading": "Loading..."
+    "status_loading": "Loading...",
+    "tab_settings": "⚙️"
   },
   "tabs": {
     "tab_convert": "🖼️ Convert",
@@ -35,7 +36,12 @@
     "menu_tools": "Tools",
     "menu_help": "Help",
     "menu_settings": "Settings",
-    "menu_language": "Language"
+    "menu_language": "Language",
+    "menu_check_dependencies": "Check dependencies",
+    "menu_about": "About",
+    "menu_help": "Help",
+    "menu_check_dependencies": "Check dependencies",
+    "menu_about": "About"
   },
   "modules": {
     "conversion": "Image to PDF Conversion",
@@ -60,7 +66,14 @@
     "success_merge": "PDFs merged successfully!",
     "success_split": "PDF split successfully!",
     "success_compress": "PDF compressed successfully!",
-    "success_form_fill": "Form filled successfully!"
+    "success_form_fill": "Form filled successfully!",
+    "error": "Error",
+    "warning": "Warning",
+    "info": "Information",
+    "logs": "Logs",
+    "yes": "Yes",
+    "no": "No",
+    "cancel": "Cancel"
   },
   "dialogs": {
     "about_title": "About PDF Tool",
@@ -254,5 +267,77 @@
   "launcher_import_error": "Import error",
   "launcher_check_main": "Make sure main.py is in the same folder.",
   "launcher_run_error": "Run error"
+  },
+"settings": {
+  "section_language": "Interface language",
+  "label_language": "Choose language:",
+  "hint_language": "Changes apply immediately after selection.",
+
+  "section_dependencies": "Dependencies",
+  "label_dependencies": "Check and update PDF Tool dependencies.",
+  "btn_check_now": "Check now",
+  "btn_update": "Update dependencies",
+  "cb_check_on_startup": "Check dependencies on startup",
+  "hint_check_on_startup": "Runs before the main window appears.",
+
+  "section_about": "About",
+  "label_version": "Version:",
+  "label_logs": "Logs:",
+  "btn_open_logs": "Open logs folder"
+},
+  "deps_ui": {
+    "window_title": "PDF Tool — dependency check",
+    "header_title": "PDF Tool dependency check",
+    "env_line": "Environment: {kind}   |   Python: {python}   |   Distribution: {distro}",
+
+    "btn_recheck": "Check again",
+    "btn_exit": "Exit",
+    "btn_continue": "Continue",
+    "btn_copy": "Copy",
+    "btn_copied": "✅ Copied",
+    "btn_docs": "Documentation",
+
+    "status_error_check": "Check failed: {error}",
+    "status_error_start": "Failed to start check: {error}"
+  },
+
+  "update": {
+    "dialog_title": "Update dependencies",
+    "header_title": "Update PDF Tool dependencies",
+
+    "status_checking": "Checking PyPI…",
+    "status_has_actions": "{count} action(s) available. Select those you need and click «Update selected».",
+    "status_all_ok": "All dependencies are up to date.",
+    "status_updating": "Updating: {name} ({current}/{total})…",
+    "status_done": "installed: {installed}   |   updated: {updated}   |   failed: {failed}",
+    "status_nothing": "Nothing changed.",
+    "status_error_check": "Check failed: {error}",
+    "status_error_update": "Error: {error}",
+
+    "btn_refresh": "Check again",
+    "btn_close": "Close",
+    "btn_update": "Update selected",
+
+    "version_not_installed": "not installed",
+    "version_actual": "up to date",
+    "version_unknown": "?"
+  },
+
+  "updater": {
+    "not_found_on_pypi": "package '{name}' not found on PyPI",
+    "http_error": "HTTP {code}",
+    "network_error": "cannot reach PyPI: {reason}",
+    "timeout": "PyPI connection timeout",
+    "bad_json": "invalid JSON from PyPI",
+    "bad_format": "invalid PyPI response format",
+
+    "install_timeout": "install timeout (5 min)",
+    "pip_not_found": "pip not found in the environment",
+
+    "hint_no_match_header": "The package seems unavailable for your Python version. Try upgrading pip:",
+    "hint_permission_header": "No write permission or PEP 668 is active. Try venv:",
+    "hint_network_header": "Network issue detected. Check your connection and retry.\nPossible alternatives:",
+    "hint_generic_header": "Try the following:",
+    "hint_pep668_warning": "Warning: PEP 668 blocks global pip install. Use venv or pipx."
   }
 }

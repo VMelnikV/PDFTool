@@ -5,7 +5,8 @@
     "status_processing": "Обробка...",
     "status_done": "Готово!",
     "status_error": "Помилка",
-    "status_loading": "Завантаження..."
+    "status_loading": "Завантаження...",
+    "tab_settings": "⚙️"
   },
   "tabs": {
     "tab_convert": "🖼️ Конвертація",
@@ -35,7 +36,12 @@
     "menu_tools": "Інструменти",
     "menu_help": "Довідка",
     "menu_settings": "Налаштування",
-    "menu_language": "Мова"
+    "menu_language": "Мова",
+    "menu_check_dependencies": "Перевірити залежності",
+    "menu_about": "Про програму",
+    "menu_help": "Довідка",
+    "menu_check_dependencies": "Перевірити залежності",
+    "menu_about": "Про програму"
   },
   "modules": {
     "conversion": "Конвертація зображень у PDF",
@@ -60,7 +66,14 @@
     "success_merge": "PDF успішно об'єднано!",
     "success_split": "PDF успішно розділено!",
     "success_compress": "PDF успішно стиснуто!",
-    "success_form_fill": "Форму успішно заповнено!"
+    "success_form_fill": "Форму успішно заповнено!",
+    "error": "Помилка",
+    "warning": "Увага",
+    "info": "Інформація",
+    "logs": "Логи",
+    "yes": "Так",
+    "no": "Ні",
+    "cancel": "Скасувати"
   },
   "dialogs": {
     "about_title": "Про PDF Tool",
@@ -254,5 +267,77 @@
   "launcher_import_error": "Помилка імпорту",
   "launcher_check_main": "Переконайтеся, що файл main.py знаходиться в тій же папці.",
   "launcher_run_error": "Помилка запуску"
+  },
+"settings": {
+  "section_language": "Мова інтерфейсу",
+  "label_language": "Оберіть мову:",
+  "hint_language": "Зміна застосовується одразу після вибору.",
+
+  "section_dependencies": "Залежності",
+  "label_dependencies": "Перевірка та оновлення залежностей PDF Tool.",
+  "btn_check_now": "Перевірити зараз",
+  "btn_update": "Оновити залежності",
+  "cb_check_on_startup": "Перевіряти залежності при старті",
+  "hint_check_on_startup": "Виконується перед запуском головного вікна.",
+
+  "section_about": "Про програму",
+  "label_version": "Версія:",
+  "label_logs": "Логи:",
+  "btn_open_logs": "Відкрити теку логів"
+},
+  "deps_ui": {
+    "window_title": "PDF Tool — перевірка залежностей",
+    "header_title": "Перевірка залежностей PDF Tool",
+    "env_line": "Середовище: {kind}   |   Python: {python}   |   Дистрибутив: {distro}",
+
+    "btn_recheck": "Перевірити знову",
+    "btn_exit": "Вийти",
+    "btn_continue": "Продовжити",
+    "btn_copy": "Копіювати",
+    "btn_copied": "✅ Скопійовано",
+    "btn_docs": "Документація",
+
+    "status_error_check": "Помилка перевірки: {error}",
+    "status_error_start": "Помилка запуску перевірки: {error}"
+  },
+
+  "update": {
+    "dialog_title": "Оновлення залежностей",
+    "header_title": "Оновлення залежностей PDF Tool",
+
+    "status_checking": "Перевірка PyPI…",
+    "status_has_actions": "Доступно дій: {count}. Позначте потрібні та натисніть «Оновити вибрані».",
+    "status_all_ok": "Усі залежності актуальні.",
+    "status_updating": "Оновлення: {name} ({current}/{total})…",
+    "status_done": "встановлено: {installed}   |   оновлено: {updated}   |   помилок: {failed}",
+    "status_nothing": "Нічого не змінено.",
+    "status_error_check": "Помилка перевірки: {error}",
+    "status_error_update": "Помилка: {error}",
+
+    "btn_refresh": "Перевірити знову",
+    "btn_close": "Закрити",
+    "btn_update": "Оновити вибрані",
+
+    "version_not_installed": "не встановлено",
+    "version_actual": "актуально",
+    "version_unknown": "?"
+  },
+
+  "updater": {
+    "not_found_on_pypi": "пакет '{name}' не знайдено на PyPI",
+    "http_error": "HTTP {code}",
+    "network_error": "немає доступу до PyPI: {reason}",
+    "timeout": "таймаут з'єднання з PyPI",
+    "bad_json": "невірний JSON від PyPI",
+    "bad_format": "невірний формат відповіді PyPI",
+
+    "install_timeout": "таймаут встановлення (5 хв)",
+    "pip_not_found": "pip не знайдено у середовищі",
+
+    "hint_no_match_header": "Схоже, пакет недоступний для вашої версії Python. Спробуйте оновити pip:",
+    "hint_permission_header": "Схоже, немає прав на запис або діє PEP 668. Спробуйте варіант з venv:",
+    "hint_network_header": "Схоже, проблема з мережею. Перевірте інтернет і спробуйте знову.\nМожливі альтернативи:",
+    "hint_generic_header": "Спробуйте варіанти:",
+    "hint_pep668_warning": "Увага: PEP 668 блокує глобальний pip install. Використовуйте venv або pipx."
   }
 }

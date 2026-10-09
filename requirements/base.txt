@@ -2,3 +2,4 @@ PySide6>=6.5.0
 Pillow>=10.0.0
 pypdf>=3.0.0
 PyPDFForm>=1.0.0
+pdf2image>=1.16.0
