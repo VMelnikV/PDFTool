@@ -424,8 +424,7 @@ PyPDFForm — за заповнення форм
 ## <div align="center">Зроблено з ❤️ для спільноти</div>
 
 
-### <div align="center">
-Якщо є бажання віддячити та підтримати мене</div>
+### <div align="center">Якщо є бажання віддячити та підтримати мене</div>
 
 ### <div align="center"> ![https://send.monobank.ua/5M8pMbQG3A](/docs/screenshots/mono.png)
 
